@@ -1,0 +1,109 @@
+version: '3.8'
+services:
+  todo:
+    networks:
+      - backend
+    container_name: todo
+    build: 
+      context: .
+      dockerfile: ./docker/dockerfile.todo-service
+    image: todo-service
+    volumes:
+      - .:/usr/src/app:rw
+    ports:
+      - "8081:8080"
+    environment:
+      - OTEL_SDK_DISABLED=false
+      - OTEL_LOG_LEVEL=ERROR
+      - NODE_ENV=staging
+    x-develop:
+      watch:
+        - action: sync
+          path: ./src/todo-service.ts
+          target: /usr/src/app
+#        - action: rebuild
+#          path: package.json
+  auth:
+    networks:
+      - backend
+    container_name: auth
+    build: 
+      context: .
+      dockerfile: ./docker/dockerfile.auth-service
+    image: auth-service
+    volumes:
+      - .:/usr/src/app:rw
+    environment:
+      - OTEL_LOG_LEVEL=ERROR
+      - NODE_ENV=staging
+    x-develop:
+      watch:
+        - action: sync
+          path: ./src/auth-service.ts
+          target: /usr/src/app
+        - action: rebuild
+          path: package.json
+  redis:
+    networks:
+      - backend
+    container_name: redis
+    image: redis:latest
+    ports:
+      - "6379:6379"
+  redis-commander:
+    networks:
+      - backend
+    container_name: redis-commander
+    hostname: redis-commander
+    image: rediscommander/redis-commander:latest
+    restart: always
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8088:8081"
+  jaeger:
+    networks:
+      - backend
+    container_name: jaeger
+    image: jaegertracing/all-in-one
+#    volumes:
+#      - ./jaeger/jaeger-ui.json:/etc/jaeger/jaeger-ui.json
+#    command: --query.ui-config /etc/jaeger/jaeger-ui.json
+    ports:
+      - "4318"
+      - "16686:16686"
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+      - METRICS_STORAGE_TYPE=prometheus
+      - PROMETHEUS_SERVER_URL=http://prometheus:9090
+      - PROMETHEUS_QUERY_SUPPORT_SPANMETRICS_CONNECTOR=${PROMETHEUS_QUERY_SUPPORT_SPANMETRICS_CONNECTOR:-true}
+      - PROMETHEUS_QUERY_NAMESPACE=${PROMETHEUS_QUERY_NAMESPACE:-}
+      - PROMETHEUS_QUERY_DURATION_UNIT=${PROMETHEUS_QUERY_DURATION_UNIT:-}
+  prometheus:
+    networks:
+      - backend
+    container_name: prometheus
+    image: prom/prometheus
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      # histogram_quantile(0.95, sum(rate(http_calls_bucket[1m])) by (le, route))
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+    ports:
+      - "9090:9090"
+#  grafana:
+#    networks:
+#      - backend
+#    container_name: grafana
+#    image: grafana/grafana:latest
+#    volumes:
+#      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+#      - ./grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yaml
+#    environment:
+#      - GF_AUTH_ANONYMOUS_ENABLED=true
+#      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+#      - GF_AUTH_DISABLE_LOGIN_FORM=true
+#    ports:
+#      - "3000:3000"
+networks:
+  backend:
