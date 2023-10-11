@@ -27,4 +27,4 @@ docker-compose up
 *Tom S.*
 *thoschu@gmail.com*
 
-> Software made with ![♥](https://www.thomas-schulte.de/images/made_with_love.gif) in Hamburg, Germany 🇩🇪
+> Software made with ![❤️](https://www.thomas-schulte.de/images/made_with_love.gif) in Hamburg, Germany 🇩🇪
