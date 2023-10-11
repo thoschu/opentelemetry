@@ -18,6 +18,11 @@ exporters:
     endpoint: jaeger:14250
     tls:
       insecure: true
+#  logging:
+#    endpoint: logstash:5000
+#    timeout: 5s
+#    tls:
+#      insecure: true
 
 extensions:
   health_check:
@@ -33,3 +38,7 @@ service:
       receivers: [otlp]
       processors: []
       exporters: [prometheus]
+#    logs:
+#     receivers: [otlp]
+#     processors: [batch]
+#     exporters: [logstash]

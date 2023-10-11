@@ -16,6 +16,7 @@
   "dependencies": {
     "@opentelemetry/api": "^1.6.0",
     "@opentelemetry/auto-instrumentations-node": "^0.39.2",
+    "@opentelemetry/exporter-metrics-otlp-proto": "^0.44.0",
     "@opentelemetry/exporter-prometheus": "^0.43.0",
     "@opentelemetry/exporter-trace-otlp-proto": "^0.43.0",
     "@opentelemetry/resource-detector-docker": "^0.1.2",

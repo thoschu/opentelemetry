@@ -72,6 +72,7 @@ services:
     ports:
       - "4318"
       - "16686:16686"
+      - "14250:14250"
     environment:
       - COLLECTOR_OTLP_ENABLED=true
       - METRICS_STORAGE_TYPE=prometheus
@@ -87,6 +88,8 @@ services:
     command:
       - --config.file=/etc/prometheus/prometheus.yml
       # histogram_quantile(0.95, sum(rate(http_calls_bucket[1m])) by (le, route))
+      # otel_http_calls_bucket
+      # otel_http_calls_sum
     volumes:
       - ./prometheus/:/etc/prometheus/
     ports:
