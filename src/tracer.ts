@@ -69,7 +69,8 @@ function start(serviceName: string): Meter {
         }),
         textMapPropagator: new CompositePropagator({
             propagators: [new W3CTraceContextPropagator(), new W3CBaggagePropagator()]
-        })
+        }),
+        //spanProcessor: null
     });
 
     sdk.start();
