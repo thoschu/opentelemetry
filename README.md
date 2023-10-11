@@ -27,4 +27,4 @@ docker-compose up
 *Tom S.*
 *thoschu@gmail.com*
 
-> Software made with ❤️ in Hamburg, Germany 🇩🇪
+> Software made with ❤️ in Hamburg - Germany 🇩🇪
