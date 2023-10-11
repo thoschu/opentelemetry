@@ -1,39 +1,26 @@
 # Observability in Cloud Native apps using OpenTelemetry
 
 Welcome to the Observability in Cloud Native apps using OpenTelemetry
- repository! This repository contains a demo application that is being used throughout the Udemy course. Whether you're a beginner or an experienced developer, the demo application will help you learn and understand the fundamentals of OpenTelemetry and Observability.
-
-
-## Following the course code examples
-This course is build an a way that we start with a simple application and every section of the course we will add more functionally of OpenTelemetry. 
-
-To navigate between the different phases of the course I have used git tags. Below is a table with all the available tags (after you have cloned the repo it is recommended to checkout the first tag)
-
-| Tag name  | description |
-| ------------- | ------------- |
-| 1  | Before we install OpenTelemetry  |
-| 2  | Basic OpenTelemetry installation  |
+ repository! This repository contains a demo application.
 
 ## How to use this repo
 
-1. **Clone the Repository:** 
+1. **Clone the Repository: https://github.com/thoschu/opentelemetry** 
 
 ```
-git clone https://github.com/habmic/opentelemetry-101.git
+git clone https://github.com/thoschu/opentelemetry.git
 ```
 
-2. **Checkout the first tag:** 
+2. **Checkout main branch:** 
 
 ```
-git checkout 1
+git checkout main
 ```
 
 3. **Running it with docker:** 
 ```
 docker-compose up
 ```
-
-
 
 >The best way to learn is by experimenting and modifying the code. Try tweaking the code to understand how different configurations and scenarios affect the telemetry data.
 
@@ -47,5 +34,5 @@ Special thanks to all the contributors who have helped create and improve these 
 
 Happy learning!
 
-*Michael Haberman*
-*habmic@gmail.com*
+*Tom S.*
+*thoschu@gmail.com*
