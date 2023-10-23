@@ -11,6 +11,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "todo": "ts-node-dev --inspect --watch -- src/todo-service.ts",
     "auth": "ts-node-dev --inspect -- src/auth-service.ts",
+    "ui": "ts-node-dev --inspect -- src/ui-service.ts",
     "watch": "npx watch 'yarn start' ."
   },
   "dependencies": {
@@ -35,5 +36,5 @@
     "@types/express": "^4.17.17",
     "tsc-watch": "^6.0.4"
   },
-  "description": "Welcome to the Observability in Cloud Native apps using OpenTelemetry  repository! This repository contains a demo application that is being used throughout the Udemy course. Whether you're a beginner or an experienced developer, the demo application will help you learn and understand the fundamentals of OpenTelemetry and Observability."
+  "description": "This repository contains a demo application in terms of Observability in Cloud Native and Frontend Apps using OpenTelemetry"
 }

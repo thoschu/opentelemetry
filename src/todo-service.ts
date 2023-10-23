@@ -8,6 +8,8 @@ import Redis from 'ioredis';
 import { Attributes, Histogram, Meter, Span, trace, propagation, Context, Baggage, context } from '@opentelemetry/api';
 import { api } from '@opentelemetry/sdk-node';
 
+const port: string | number = process.env.PORT || 8081;
+
 const sleep = (time: number) => new Promise((resolve: (args: void) => void): NodeJS.Timeout => setTimeout(resolve, time));
 
 const redis: Redis = new Redis({ host: 'redis' });
@@ -82,13 +84,13 @@ app.get('/todos', async (req: Request, res: Response): Promise<void> => {
     });
 })
 
-app.listen(8080, () => {
-    console.log('service is up and running!');
+app.listen(port, (): void => {
+    console.log(`todo-service is up and running and listening on port ${port}`);
 })
 
 async function init(): Promise<void> {
     // ---------------------- Manual Spans ----------------------
-   await trace.getTracer('init').startActiveSpan('Set default items', async (span: Span): Promise<void> => {
+   await trace.getTracer('init-redis').startActiveSpan('Set default items', async (span: Span): Promise<void> => {
         await Promise.all([
             redis.set('todo:1', JSON.stringify({ name: 'Install OpenTelemetry SDK!' })),
             redis.set('todo:2', JSON.stringify({ name: 'Deploy OpenTelemetry Collector' })),

@@ -11,7 +11,7 @@ services:
     volumes:
       - .:/usr/src/app:rw
     ports:
-      - "8081:8080"
+      - "8081:8081"
     environment:
       - OTEL_SDK_DISABLED=false
       - OTEL_LOG_LEVEL=ERROR
@@ -40,6 +40,28 @@ services:
       watch:
         - action: sync
           path: ./src/auth-service.ts
+          target: /usr/src/app
+        - action: rebuild
+          path: package.json
+  ui:
+    networks:
+      - backend
+    container_name: ui
+    build:
+      context: .
+      dockerfile: ./docker/dockerfile.ui-service
+    image: ui-service
+    volumes:
+      - .:/usr/src/app:rw
+    ports:
+      - "8080:8080"
+    environment:
+      - OTEL_LOG_LEVEL=ERROR
+      - NODE_ENV=staging
+    x-develop:
+      watch:
+        - action: sync
+          path: ./src/ui-service.ts
           target: /usr/src/app
         - action: rebuild
           path: package.json

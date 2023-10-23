@@ -5,6 +5,7 @@ import express from 'express';
 import { Express, Request, Response } from 'express';
 import { Meter, trace, propagation, Baggage } from '@opentelemetry/api';
 const app: Express = express();
+const port: string | number = process.env.PORT || 8082
 
 app.get('/auth',(req: Request, res: Response): void => {
     const baggage: Baggage = propagation.getActiveBaggage();
@@ -22,6 +23,7 @@ app.get('/auth',(req: Request, res: Response): void => {
     res.json({ user, baggage: baggage.getAllEntries(), headers: req.headers });
 });
 
-app.listen(8082, (): void => {
+app.listen(port, (): void => {
     console.log('service is up and running!');
+    console.log(`auth-service is up and running and listening on port ${port}`);
 });

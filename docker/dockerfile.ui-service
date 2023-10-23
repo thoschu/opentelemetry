@@ -6,6 +6,6 @@ COPY ./package.json ./
 
 RUN yarn
 
-EXPOSE 8081
+EXPOSE 8080
 
-CMD ["yarn", "todo"]
+CMD ["yarn", "ui"]
