@@ -37,15 +37,15 @@
             const JSONFormatter = window.JSONFormatter;
             const { fromEvent } = window.rxjs;
             const clicks = fromEvent(document, 'click');
-            clicks.subscribe((x) => {
+            clicks.subscribe((pointerEvent) => {
                 console.log(pointerEvent);
-                if(!pointerEvent.altKey) {
+                if(pointerEvent.altKey) {
                     const url = 'http://localhost:8081/todos'; //const url = 'http://localhost:8081/todos?fail=77';
                     fetch(url)
                         .then((res) => res.json())
-                        .then((data) => data.todos)
-                        .then((res) => {
-                            const formatter = new JSONFormatter(res);
+                        .then((json) => json.todos)
+                        .then((todos) => {
+                            const formatter = new JSONFormatter(todos);
 
                             document.getElementById('container').appendChild(formatter.render());
                         })
