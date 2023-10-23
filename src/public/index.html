@@ -13,6 +13,9 @@
           (01 = sampled, 00 = not sampled).
           '{version}-{traceId}-{spanId}-{sampleDecision}'
         -->
+        <script src="//cdnjs.cloudflare.com/ajax/libs/rxjs/7.8.1/rxjs.umd.js" integrity="sha512-ow7sbCeOI1NiWyqnMwWC/CJhkhi4XNFJQOGT/SCu6kKB+rJmQC36rPF2mZAknyS8ibEZpuhw1diUHJzHJ1Rw9Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="//cdn.jsdelivr.net/npm/json-formatter-js@2.3.4/dist/json-formatter.umd.min.js"></script>
+        <link href="//cdn.jsdelivr.net/npm/json-formatter-js@2.3.4/dist/json-formatter.min.css" rel="stylesheet">
         <meta name="traceparent" content="00-ab42124a3c573678d4d8b21ba52df3bf-d21f7bc17caa5aba-01">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
@@ -24,17 +27,31 @@
                 exporter and collector exporter by Tom S.
             </p>
             <code>https://opentelemetry.io/docs/demo/services/frontend/</code>
+            <br><br>
+            <hr>
+            <br>
             <div id="container"></div>
         </main>
         <footer></footer>
-        <script>
-            const url = 'http://localhost:8081/todos?fail=77';
-            // fetch(url)
-            //     .then(() => {
-            //         // handle the response
-            //     })  .catch(function() {
-            // handle the error
-            //});
+        <script type="module">
+            const JSONFormatter = window.JSONFormatter;
+            const { fromEvent } = window.rxjs;
+            const clicks = fromEvent(document, 'click');
+            clicks.subscribe((x) => {
+                console.log(pointerEvent);
+                if(!pointerEvent.altKey) {
+                    const url = 'http://localhost:8081/todos'; //const url = 'http://localhost:8081/todos?fail=77';
+                    fetch(url)
+                        .then((res) => res.json())
+                        .then((data) => data.todos)
+                        .then((res) => {
+                            const formatter = new JSONFormatter(res);
+
+                            document.getElementById('container').appendChild(formatter.render());
+                        })
+                        .catch(console.error);
+                }
+            });
         </script>
     </body>
 </html>

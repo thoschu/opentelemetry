@@ -21,6 +21,15 @@ git checkout main
 docker-compose up
 ```
 
+3. **UI´s:**
+> [Frontend](http://localhost:8080/)
+
+> [Prometheus](http://localhost:9090/)
+
+> [Jaeger](http://localhost:16686/)
+
+>[Redis](http://localhost:8088/)
+
 ---
 
 📯

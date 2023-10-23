@@ -3,6 +3,7 @@ const meter: Meter = start('todo-service');
 
 import express, { NextFunction } from 'express';
 import { Response, Request, Express } from 'express';
+import cors from 'cors';
 import axios, {AxiosResponse} from 'axios';
 import Redis from 'ioredis';
 import { Attributes, Histogram, Meter, Span, trace, propagation, Context, Baggage, context } from '@opentelemetry/api';
@@ -16,6 +17,8 @@ const redis: Redis = new Redis({ host: 'redis' });
 const app: Express = express();
 
 const calls: Histogram<Attributes> = meter.createHistogram('http-calls');
+
+app.use(cors())
 
 app.use((req: Request, res: Response, next: NextFunction): void => {
     const startTime: number = Date.now();
