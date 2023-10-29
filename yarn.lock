@@ -803,12 +803,31 @@
     "@opentelemetry/semantic-conventions" "^1.0.0"
     "@types/tedious" "^4.0.10"
 
+"@opentelemetry/instrumentation-user-interaction@^0.33.2":
+  version "0.33.2"
+  resolved "https://registry.yarnpkg.com/@opentelemetry/instrumentation-user-interaction/-/instrumentation-user-interaction-0.33.2.tgz#a4ac68d51fccc93ef3157f7f58747d7fe90a605e"
+  integrity sha512-+9fxN9zlO2YKX5rajw8W9O4aCl9keyjI6VSGnnFiB5+zYDxzE55B7aTa8LAW6unz+kOYalHSwizkDa1mduGLCg==
+  dependencies:
+    "@opentelemetry/core" "^1.8.0"
+    "@opentelemetry/instrumentation" "^0.44.0"
+    "@opentelemetry/sdk-trace-web" "^1.8.0"
+
 "@opentelemetry/instrumentation-winston@^0.32.2":
   version "0.32.2"
   resolved "https://registry.yarnpkg.com/@opentelemetry/instrumentation-winston/-/instrumentation-winston-0.32.2.tgz#3e10fabbf7ab5496fec3fc8bcfc0227a5ba0a5ca"
   integrity sha512-6+BMhSWaGxgezwOUuMH389V16fMgwFNmXAwh8zk0mjYHmWpyLzoJ+QV8AQ9WZFBQQnkpbbxfiFdiyO+NCvwBCg==
   dependencies:
     "@opentelemetry/instrumentation" "^0.44.0"
+
+"@opentelemetry/instrumentation-xml-http-request@^0.44.0":
+  version "0.44.0"
+  resolved "https://registry.yarnpkg.com/@opentelemetry/instrumentation-xml-http-request/-/instrumentation-xml-http-request-0.44.0.tgz#bd8a625f23f7b7a58c9b82d1a9212fe8e2ff42cc"
+  integrity sha512-wK3YoC40PzZUYRsdPo9VssOYLVeu1by05VQDBaL/Aiyoko7I0wakQ2Fg425IM06TJ2jbWQh4E+B3x4v0bsmoLw==
+  dependencies:
+    "@opentelemetry/core" "1.17.1"
+    "@opentelemetry/instrumentation" "0.44.0"
+    "@opentelemetry/sdk-trace-web" "1.17.1"
+    "@opentelemetry/semantic-conventions" "1.17.1"
 
 "@opentelemetry/instrumentation@0.43.0":
   version "0.43.0"
@@ -1128,7 +1147,7 @@
     "@opentelemetry/sdk-trace-base" "1.17.1"
     semver "^7.5.2"
 
-"@opentelemetry/sdk-trace-web@^1.15.0", "@opentelemetry/sdk-trace-web@^1.17.1":
+"@opentelemetry/sdk-trace-web@1.17.1", "@opentelemetry/sdk-trace-web@^1.15.0", "@opentelemetry/sdk-trace-web@^1.17.1", "@opentelemetry/sdk-trace-web@^1.8.0":
   version "1.17.1"
   resolved "https://registry.yarnpkg.com/@opentelemetry/sdk-trace-web/-/sdk-trace-web-1.17.1.tgz#1c13e6d8427a33b5e97ac85cb745a084b976c470"
   integrity sha512-Nle48xE1eaR6lRqyOvUlIwW/C2Bz6pptHzlHqrd+a6tGSLWEP1ZhPfuJbNeq/tWX5PX2RgeOsLlvPLEEBKeKxg==

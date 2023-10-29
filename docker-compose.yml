@@ -84,11 +84,14 @@ services:
     ports:
       - "8088:8081"
   jaeger:
+    networks:
+      - backend
     image: jaegertracing/all-in-one
     ports:
       - "4318"
       - "16686:16686"
     environment:
       COLLECTOR_OTLP_ENABLED: true
+      cors_enabled: true
 networks:
   backend:
