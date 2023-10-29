@@ -1,19 +1,37 @@
 import start from './tracer';
-start('todo-service');
+const meter: Meter = start('todo-service');
 
 import { IncomingHttpHeaders } from 'http';
-import express, { Response, Request, Express } from 'express';
+import express, {Response, Request, Express, NextFunction} from 'express';
 import cors from 'cors';
 import axios, {AxiosResponse} from 'axios';
 import { Redis } from 'ioredis';
 import { prop } from 'ramda';
+import { Attributes, Histogram, Meter } from '@opentelemetry/api';
 
-const port: string | number = process.env.PORT || 8081;
+const calls: Histogram<Attributes> = meter.createHistogram('http-calls');
 const sleep = (time: number) => new Promise((resolve: (args: void) => void): NodeJS.Timeout => setTimeout(resolve, time));
 const redis: Redis = new Redis({host: 'redis'});
 const app: Express = express();
+const port: string | number = process.env.PORT || 8081;
 
-app.use(cors())
+app.use((req: Request, res: Response, next: NextFunction): void => {
+    const startTime: number = Date.now();
+
+    req.on('end',(): void=> {
+        const endTime: number = Date.now();
+
+        calls.record(endTime-startTime,{
+            route: req.route?.path,
+            status: res.statusCode,
+            method: req.method
+        });
+    });
+
+    next();
+});
+
+app.use(cors());
 
 app.get('/todos', async (req: Request, res: Response): Promise<void> => {
     const { headers }: { headers: IncomingHttpHeaders } = req;

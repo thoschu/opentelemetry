@@ -32,6 +32,10 @@ docker-compose up
 > 
 > > https://github.com/joeferner/redis-commander
 
+> [Prometheus](http://localhost:9090/)
+> > 
+> > https://prometheus.io/
+
 > [ToDo Service](http://localhost:8081/todos)
 
 ---

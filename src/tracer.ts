@@ -5,26 +5,29 @@ import { PrometheusExporter } from '@opentelemetry/exporter-prometheus';
 import { MeterProvider } from '@opentelemetry/sdk-metrics';
 import { Resource } from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+import { Meter } from '@opentelemetry/api';
 
-const start: (serviceName: string) => void = (serviceName: string): void => {
+const start: (serviceName: string) => Meter = (serviceName: string): Meter => {
     // TRAICING
     const traceExporter: OTLPTraceExporter = new OTLPTraceExporter({
         url: 'http://jaeger:4318/v1/traces',
     });
 
     // METRICS
-    const { endpoint, port } = PrometheusExporter.DEFAULT_OPTIONS;
-    const exporter = new PrometheusExporter({}, () => {
-        console.log(
-            `prometheus scrape endpoint: http://localhost:${port}${endpoint}`,
-        );
+    const { endpoint, port }: { endpoint: string, port: number } = PrometheusExporter.DEFAULT_OPTIONS;
+    const exporter: PrometheusExporter = new PrometheusExporter({}, (): void => {
+        console.log(`Prometheus scrape endpoint: http://localhost:${port}${endpoint}`);
     });
-    const meterProvider = new MeterProvider({
+    const meterProvider: MeterProvider = new MeterProvider({
         resource: new Resource({
             [SemanticResourceAttributes.SERVICE_NAME]: serviceName,
         }),
-    });    meterProvider.addMetricReader(exporter);
-    const meter = meterProvider.getMeter('my-service-meter');
+    });
+
+    // @ts-ignore
+    meterProvider.addMetricReader(exporter);
+
+    const meter: Meter = meterProvider.getMeter(`${serviceName}-service-meter`);
 
     const sdk: NodeSDK = new NodeSDK({
         traceExporter,
@@ -32,8 +35,9 @@ const start: (serviceName: string) => void = (serviceName: string): void => {
         instrumentations: [getNodeAutoInstrumentations()]
     });
 
-
     sdk.start();
+
+    return meter;
 }
 
 export default start;
