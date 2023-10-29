@@ -1,3 +1,6 @@
+import start from './tracer';
+start('ui-service');
+
 import express from 'express';
 import { Express } from 'express';
 

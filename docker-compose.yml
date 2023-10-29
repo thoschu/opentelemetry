@@ -83,5 +83,12 @@ services:
       - REDIS_HOSTS=local:redis:6379
     ports:
       - "8088:8081"
+  jaeger:
+    image: jaegertracing/all-in-one
+    ports:
+      - "4318"
+      - "16686:16686"
+    environment:
+      COLLECTOR_OTLP_ENABLED: true
 networks:
   backend:

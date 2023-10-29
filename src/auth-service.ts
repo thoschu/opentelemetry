@@ -1,3 +1,6 @@
+import start from './tracer';
+start('auth-service');
+
 import { IncomingHttpHeaders } from 'http';
 import express, { Express, Request, Response } from 'express';
 import { Redis } from 'ioredis';

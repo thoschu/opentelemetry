@@ -1,3 +1,6 @@
+import start from './tracer';
+start('todo-service');
+
 import { IncomingHttpHeaders } from 'http';
 import express, { Response, Request, Express } from 'express';
 import cors from 'cors';
