@@ -11,13 +11,13 @@ type User = Record<'username' | 'password', string | number>;
 
 app.get('/auth', async (req: Request, res: Response): Promise<void> => {
     const { headers }: { headers: IncomingHttpHeaders } = req;
-    const name: string = <string>prop<'name', IncomingHttpHeaders>('name', headers);
-    const password: string = <string>prop<'password', IncomingHttpHeaders>('password', headers);
+    const name: string = <string>prop<'name', IncomingHttpHeaders>('name', headers) || 'nonce';
+    const password: string = <string>prop<'password', IncomingHttpHeaders>('password', headers) || 'nope';
     const redisResult: string = await redis.get(`user:${name.toLowerCase()}`);
     const redisResultParsed: User = JSON.parse(isNotNil(redisResult) ? redisResult : JSON.stringify({ username: null, password: null }));
     const loggedIn: boolean = redisResultParsed.password === password;
 
-    res.json({ loggedIn, headers: req.headers });
+    res.json({ loggedIn, redisResultParsed, headers: req.headers });
 });
 
 app.listen(port,(): void => {
@@ -26,6 +26,7 @@ app.listen(port,(): void => {
 
 (async (): Promise<void> => {
     await Promise.all([
+            redis.set('user:nonce', JSON.stringify({ username: 'Nobody', password: 'nope' })),
             redis.set('user:tom', JSON.stringify({ username: 'Tom', password: 'mama' })),
             redis.set('user:thomas', JSON.stringify({ username: 'Thomas', password: 'papa' })),
         ]

@@ -192,9 +192,10 @@
                                 return todos;
                             })
                             .then((todos) => {
-                                console.log(todos);
                                 if(!todos) {
-                                    dialog.showModal();
+                                    setTimeout(() => {
+                                        dialog.showModal();
+                                    }, 1500);
                                 }
                             })
                             .catch(console.error);
