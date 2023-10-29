@@ -92,6 +92,5 @@ services:
       - "16686:16686"
     environment:
       COLLECTOR_OTLP_ENABLED: true
-      cors_enabled: true
 networks:
   backend:
