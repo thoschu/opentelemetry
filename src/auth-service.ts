@@ -5,7 +5,7 @@ import { IncomingHttpHeaders } from 'http';
 import express, {Express, NextFunction, Request, Response} from 'express';
 import { Redis } from 'ioredis';
 import { isNotNil, prop } from 'ramda';
-import {Attributes, Histogram, Meter} from '@opentelemetry/api';
+import { Attributes, Histogram, Meter } from '@opentelemetry/api';
 
 const calls: Histogram<Attributes> = meter.createHistogram('http-calls');
 const app: Express = express();
