@@ -25,7 +25,7 @@ app.use((req: Request, res: Response, next: NextFunction): void => {
     next();
 });
 
-app.use('/', express.static(__dirname + '/public'));
+app.use('/start', express.static(__dirname + '/public'));
 
 app.listen(port, (): void => {
     console.log(`Example app listening on port ${port}`);
