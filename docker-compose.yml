@@ -83,37 +83,5 @@ services:
       - REDIS_HOSTS=local:redis:6379
     ports:
       - "8088:8081"
-  zipkin:
-    networks:
-      - backend
-    image: openzipkin/zipkin:latest
-    container_name: zipkin
-    ports:
-      - "9411:9411"
-  jaeger:
-    networks:
-      - backend
-    container_name: jaeger
-    image: jaegertracing/all-in-one
-    ports:
-      - "4318"
-      - "16686:16686"
-      - "14250:14250"
-    environment:
-      COLLECTOR_OTLP_ENABLED: true
-  prometheus:
-    networks:
-      - backend
-    container_name: prometheus
-    image: prom/prometheus
-    command:
-      - --config.file=/etc/prometheus/prometheus.yml
-      # histogram_quantile(0.95, sum(rate(http_calls_bucket[1m])) by (le, route))
-      # otel_http_calls_bucket
-      # otel_http_calls_sum
-    volumes:
-      - ./prometheus/:/etc/prometheus/
-    ports:
-      - "9090:9090"
 networks:
   backend:

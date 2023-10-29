@@ -1,29 +1,33 @@
-import start from './tracer';
-const meter: Meter = start('auth-service');
+import { IncomingHttpHeaders } from 'http';
+import express, { Express, Request, Response } from 'express';
+import { Redis } from 'ioredis';
+import { isNotNil, prop } from 'ramda';
 
-import express from 'express';
-import { Express, Request, Response } from 'express';
-import { Meter, trace, propagation, Baggage } from '@opentelemetry/api';
+const port: string | number = process.env.PORT || 8082;
 const app: Express = express();
-const port: string | number = process.env.PORT || 8082
+const redis: Redis = new Redis({ host: 'redis' });
 
-app.get('/auth',(req: Request, res: Response): void => {
-    const baggage: Baggage = propagation.getActiveBaggage();
-    const user: { username: string, id: number } = { username: 'Tom S...', id: 1377 };
-    console.log(baggage.getAllEntries());
+type User = Record<'username' | 'password', string | number>;
 
-    trace.getActiveSpan()?.setAttribute('userId', user.id);
-    trace.getActiveSpan()?.setAttributes({
-        foo: 1,
-        bar: true,
-        baz: user.username,
-        xxx: req.originalUrl
-    });
+app.get('/auth', async (req: Request, res: Response): Promise<void> => {
+    const { headers }: { headers: IncomingHttpHeaders } = req;
+    const name: string = <string>prop<'name', IncomingHttpHeaders>('name', headers);
+    const password: string = <string>prop<'password', IncomingHttpHeaders>('password', headers);
+    const redisResult: string = await redis.get(`user:${name.toLowerCase()}`);
+    const redisResultParsed: User = JSON.parse(isNotNil(redisResult) ? redisResult : JSON.stringify({ username: null, password: null }));
+    const loggedIn: boolean = redisResultParsed.password === password;
 
-    res.json({ user, baggage: baggage.getAllEntries(), headers: req.headers });
+    res.json({ loggedIn, headers: req.headers });
 });
 
-app.listen(port, (): void => {
-    console.log('service is up and running!');
-    console.log(`auth-service is up and running and listening on port ${port}`);
+app.listen(port,(): void => {
+    console.info(`auth-service is up and running and listening on port ${port}`);
 });
+
+(async (): Promise<void> => {
+    await Promise.all([
+            redis.set('user:tom', JSON.stringify({ username: 'Tom', password: 'mama' })),
+            redis.set('user:thomas', JSON.stringify({ username: 'Thomas', password: 'papa' })),
+        ]
+    );
+})();

@@ -1,18 +1,24 @@
 {
   "name": "opentelemetry",
   "version": "1.0.0",
-  "main": "index.js",
-  "author": "Tom S. - HH thoschulte@gmail.com",
+  "source": "src/private/index.html",
+  "author": "Tom S. - HH | thoschulte@gmail.com",
   "license": "MIT",
   "scripts": {
     "start": "npm run up",
+    "docker:ps": "docker ps -a",
     "up": "docker compose up --force-recreate",
     "down": "docker compose down",
     "test": "echo \"Error: no test specified\" && exit 1",
     "todo": "ts-node-dev --inspect --watch -- src/todo-service.ts",
     "auth": "ts-node-dev --inspect -- src/auth-service.ts",
     "ui": "ts-node-dev --inspect -- src/ui-service.ts",
-    "watch": "npx watch 'yarn start' ."
+    "watch": "npx watch 'yarn start' .",
+    "build": "npx rimraf src/public && parcel build --dist-dir src/public",
+    "clean": "npx concurrently 'npm run clean:node_modules' 'npm run clean:yarn.lock'",
+    "clean:node_modules": "npx rimraf node_modules",
+    "clean:yarn.lock": "npx rimraf yarn.lock",
+    "clean:.parcel-cache": "npx rimraf .parcel-cache"
   },
   "dependencies": {
     "@opentelemetry/api": "^1.6.0",
@@ -30,13 +36,19 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "ioredis": "^5.3.2",
+    "ramda": "^0.29.1",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.1.6"
   },
   "devDependencies": {
     "@types/cors": "^2.8.15",
     "@types/express": "^4.17.17",
+    "@types/ramda": "^0.29.7",
+    "parcel": "^2.10.1",
+    "process": "^0.11.10",
     "tsc-watch": "^6.0.4"
   },
-  "description": "This repository contains a demo application in terms of Observability in Cloud Native and Frontend Apps using OpenTelemetry"
+  "description": "This repository contains a demo application in terms of Observability in Cloud Native and Frontend Apps using OpenTelemetry",
+  "repository": "https://github.com/thoschu/opentelemetry",
+  "private": true
 }
