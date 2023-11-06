@@ -1,8 +1,7 @@
 import start from './tracer';
 const meter: Meter = start('ui-service');
 
-import express, { NextFunction, Response, Request } from 'express';
-import { Express } from 'express';
+import express, { Express, NextFunction, Response, Request } from 'express';
 import { Attributes, Histogram, Meter } from '@opentelemetry/api';
 
 const calls: Histogram<Attributes> = meter.createHistogram('http-calls');
@@ -21,7 +20,6 @@ app.use((req: Request, res: Response, next: NextFunction): void => {
             method: req.method
         });
     });
-
 
     next();
 });

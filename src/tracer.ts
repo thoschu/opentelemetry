@@ -1,7 +1,7 @@
 import { NodeSDK } from '@opentelemetry/sdk-node';
 import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
-import { PrometheusExporter } from '@opentelemetry/exporter-prometheus';
+import {ExporterConfig, PrometheusExporter} from '@opentelemetry/exporter-prometheus';
 import { MeterProvider } from '@opentelemetry/sdk-metrics';
 import { Resource } from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
@@ -15,16 +15,14 @@ const start: (serviceName: string) => Meter = (serviceName: string): Meter => {
 
     // METRICS
     const { endpoint, port }: { endpoint: string, port: number } = PrometheusExporter.DEFAULT_OPTIONS;
-    const exporter: PrometheusExporter = new PrometheusExporter({}, (): void => {
+    const options: ExporterConfig = { port, endpoint };
+    const exporter: PrometheusExporter = new PrometheusExporter(options, (): void => {
         console.log(`Prometheus scrape endpoint: http://localhost:${port}${endpoint}`);
     });
     const meterProvider: MeterProvider = new MeterProvider({
-        resource: new Resource({
-            [SemanticResourceAttributes.SERVICE_NAME]: serviceName,
-        }),
+        resource: new Resource({ [SemanticResourceAttributes.SERVICE_NAME]: serviceName })
     });
 
-    // @ts-ignore
     meterProvider.addMetricReader(exporter);
 
     const meter: Meter = meterProvider.getMeter(`${serviceName}-service-meter`);
