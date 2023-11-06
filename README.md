@@ -14,20 +14,30 @@ git clone https://github.com/thoschu/opentelemetry.git
 
 ```
 git checkout main
+
+git checkout init
 ```
 
 3. **Running it with docker:** 
 ```
+npm run build 
+
 docker-compose up
+
+--- or
+
+npm start
 ```
 
 3. **UI´s:**
 > [Frontend](http://localhost:8080/)
 
-> [Redis UI](http://localhost:8088/)
+> [Redis](http://localhost:8088/)
+> > https://redis.com/
+>
+> > https://github.com/joeferner/redis-commander
 
 > [ToDo Service](http://localhost:8081/todos)
-
 ---
 
 📯

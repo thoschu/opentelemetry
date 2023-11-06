@@ -1,11 +1,11 @@
 {
   "name": "opentelemetry",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "source": "src/private/index.html",
   "author": "Tom S. - HH | thoschulte@gmail.com",
   "license": "MIT",
   "scripts": {
-    "start": "npm run up",
+    "start": "npm run build && npm run up",
     "docker:ps": "docker ps -a",
     "up": "docker compose up --force-recreate",
     "down": "docker compose down",
@@ -14,9 +14,10 @@
     "auth": "ts-node-dev --inspect -- src/auth-service.ts",
     "ui": "ts-node-dev --inspect -- src/ui-service.ts",
     "watch": "npx watch 'yarn start' .",
-    "build": "parcel build --dist-dir src/public",
+    "build": "npm run clean:.parcel-cache && npm run clean:src/public && parcel build --dist-dir src/public",
     "clean": "npx concurrently 'npm run clean:node_modules' 'npm run clean:yarn.lock'",
     "clean:node_modules": "npx rimraf node_modules",
+    "clean:src/public": "npx concurrently 'npx rimraf src/public/*.js' 'npx rimraf src/public/*.map' 'npx rimraf src/public/*.html'",
     "clean:yarn.lock": "npx rimraf yarn.lock",
     "clean:.parcel-cache": "npx rimraf .parcel-cache"
   },
