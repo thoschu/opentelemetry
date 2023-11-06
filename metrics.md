@@ -76,6 +76,7 @@ Get the meter from the tracer import `const meter: Meter = start('service');`
 Then, and the following: 
 
 ```
+const meter: Meter = start('todo-service');
 const calls: Meter = meter.createHistogram('http-calls');
 
 app.use((req: Request, res: Response, next: NextFunction): void => {
