@@ -64,6 +64,8 @@ Then add the following to the `start` function
     });
 
     meterProvider.addMetricReader(exporter);
+    
+    const meter: Meter = meterProvider.getMeter(`${serviceName}-service-meter`);
 ```
 
 And return the meter `return meter;`
