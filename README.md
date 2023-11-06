@@ -14,6 +14,8 @@ git clone https://github.com/thoschu/opentelemetry.git
 
 ```
 git checkout main
+
+git checkout traces
 ```
 
 3. **Running it with docker:** 
