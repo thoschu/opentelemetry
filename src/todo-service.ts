@@ -51,7 +51,7 @@ app.get('/todos', async (req: Request, res: Response): Promise<void> => {
     }
 
     if (req.query['slow']) {
-        await sleep(1000);
+        await sleep(3000);
     }
 
     if (req.query['fail']) {
