@@ -20,7 +20,13 @@ git checkout traces
 
 3. **Running it with docker:** 
 ```
+npm run build 
+
 docker-compose up
+
+--- or
+
+npm start
 ```
 
 3. **UI´s:**

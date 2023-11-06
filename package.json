@@ -1,6 +1,6 @@
 {
   "name": "opentelemetry",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "source": "./src/private/index.html",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "author": "Tom S. - HH | thoschulte@gmail.com",
