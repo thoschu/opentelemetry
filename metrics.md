@@ -29,13 +29,15 @@ scrape_configs:
 
 ```
   prometheus:
+    networks:
+      - backend
     image: prom/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
     volumes:
       - ./prometheus/:/etc/prometheus/
     ports:
-      - 9090:9090
+      - "9090:9090"
 ```
 
 
@@ -52,42 +54,41 @@ import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions'
 
 Then add the following to the `start` function
 ```
-    const { endpoint, port } = PrometheusExporter.DEFAULT_OPTIONS;
-    const exporter = new PrometheusExporter({}, () => {
-        console.log(
-          `prometheus scrape endpoint: http://localhost:${port}${endpoint}`,
-        );
-      });
-    const meterProvider = new MeterProvider({
-            resource: new Resource({
-            [SemanticResourceAttributes.SERVICE_NAME]: serviceName,
-        }),
-    });    meterProvider.addMetricReader(exporter);
-    const meter = meterProvider.getMeter('my-service-meter');
+    const { endpoint, port }: { endpoint: string, port: number } = PrometheusExporter.DEFAULT_OPTIONS;
+    const options: ExporterConfig = { port, endpoint };
+    const exporter: PrometheusExporter = new PrometheusExporter(options, (): void => {
+        console.log(`Prometheus scrape endpoint: http://localhost:${port}${endpoint}`);
+    });
+    const meterProvider: MeterProvider = new MeterProvider({
+        resource: new Resource({ [SemanticResourceAttributes.SERVICE_NAME]: serviceName })
+    });
+
+    meterProvider.addMetricReader(exporter);
 ```
 
 And return the meter `return meter;`
 
 ### Report metrics 
-Get the meter from the tracer import `const meter = start('todo-service');`
-
+Get the meter from the tracer import `const meter: Meter = start('service');`
 
 Then, and the following: 
 
-
 ```
-const calls = meter.createHistogram('http-calls');
+const calls: Meter = meter.createHistogram('http-calls');
 
-app.use((req,res,next)=>{
-    const startTime = Date.now();
-    req.on('end',()=>{
-        const endTime = Date.now();
+app.use((req: Request, res: Response, next: NextFunction): void => {
+    const startTime: number = Date.now();
+
+    req.on('end',(): void=> {
+        const endTime: number = Date.now();
+
         calls.record(endTime-startTime,{
             route: req.route?.path,
             status: res.statusCode,
             method: req.method
-        })
-    })
+        });
+    });
+
     next();
-})
+});
 ```
