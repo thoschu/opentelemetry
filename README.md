@@ -22,7 +22,7 @@ git checkout traces
 ```
 npm run build 
 
-docker-compose up
+docker compose up
 
 --- or
 
