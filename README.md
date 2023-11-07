@@ -18,7 +18,13 @@ git checkout main
 
 3. **Running it with docker:** 
 ```
-docker-compose up
+npm run build 
+
+docker compose up
+
+--- or
+
+npm start
 ```
 
 3. **UI´s:**
