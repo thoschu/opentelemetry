@@ -7,6 +7,7 @@ import cors from 'cors';
 import axios, {AxiosResponse} from 'axios';
 import { Redis } from 'ioredis';
 import { prop } from 'ramda';
+import { Span, trace } from '@opentelemetry/api';
 
 const port: string | number = process.env.PORT || 8081;
 const sleep = (time: number) => new Promise((resolve: (args: void) => void): NodeJS.Timeout => setTimeout(resolve, time));
@@ -61,11 +62,16 @@ app.listen(port, (): void => {
     console.log(`todo-service is up and running and listening on port ${port}`);
 });
 
+
 (async (): Promise<void> => {
-    await Promise.all([
-        redis.set('todo:1', JSON.stringify({name: 'Install OpenTelemetry SDK!'})),
-        redis.set('todo:2', JSON.stringify({name: 'Deploy OpenTelemetry Collector'})),
-        redis.set('todo:3', JSON.stringify({name: 'Configure sampling rule'})),
-        redis.set('todo:4', JSON.stringify({name: 'You are OpenTelemetry master!!!!'}))]
-    );
+    await trace.getTracer('init todos').startActiveSpan('Set default todo items', async (span: Span): Promise<void> => {
+        await Promise.all([
+            redis.set('todo:1', JSON.stringify({name: 'Install OpenTelemetry SDK!'})),
+            redis.set('todo:2', JSON.stringify({name: 'Deploy OpenTelemetry Collector'})),
+            redis.set('todo:3', JSON.stringify({name: 'Configure sampling rule'})),
+            redis.set('todo:4', JSON.stringify({name: 'You are OpenTelemetry master!!!!'}))]
+        );
+
+        span.end();
+    });
 })();
