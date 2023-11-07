@@ -15,14 +15,14 @@ git clone https://github.com/thoschu/opentelemetry.git
 ```
 git checkout main
 
-git checkout traces
+git checkout traces-with-logs
 ```
 
 3. **Running it with docker:** 
 ```
 npm run build 
 
-docker-compose up
+docker compose up
 
 --- or
 

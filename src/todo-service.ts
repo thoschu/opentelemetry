@@ -1,6 +1,8 @@
 import start from './tracer';
 start('todo-service');
 
+import { Context, Exception, Span } from '@opentelemetry/api';
+import { api } from '@opentelemetry/sdk-node';
 import { IncomingHttpHeaders } from 'http';
 import express, { Response, Request, Express } from 'express';
 import cors from 'cors';
@@ -43,18 +45,32 @@ app.get('/todos', async (req: Request, res: Response): Promise<void> => {
         try {
             throw new Error('Really bad error');
         } catch (error: unknown) {
-            console.error(error);
-            res.sendStatus(500);
+            const ctx: Context = api.context.active();
+            const activeSpan: Span = api.trace.getSpan(ctx);
+            const errorParams: { spanId: string; traceId: string; traceFlag: number; error: unknown; } = {
+                spanId: activeSpan?.spanContext().spanId,
+                traceId: activeSpan?.spanContext().traceId,
+                traceFlag: activeSpan?.spanContext().traceFlags,
+                error
+            };
+
+            activeSpan?.recordException(<Exception>error);
+
+            console.error('Really bad error!', errorParams);
+
+            res.status(500).send(errorParams);
+
             return;
         }
     }
 
     if(user.data.loggedIn) {
-        res.json({todos, user: user.data, env: process.env.NODE_ENV});
+        res.json({ todos, user: user.data, env: process.env.NODE_ENV });
+
         return;
     }
 
-    res.json({todos: null, user: user.data, env: process.env.NODE_ENV});
+    res.json({ todos: null, user: user.data, env: process.env.NODE_ENV });
 })
 
 app.listen(port, (): void => {

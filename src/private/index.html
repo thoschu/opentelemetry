@@ -19,7 +19,14 @@
         <script src="//cdn.jsdelivr.net/npm/json-formatter-js@2.3.4/dist/json-formatter.umd.min.js"></script>
         <link rel="icon" type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAACKUlEQVR4nO2YPWsUURSGH/ADLNSAYKFWoo0Iohs12b1nRjSg2GurdvoPxEpLC0WxtfEvGIt0SrRQC2MaQTSChaJZ1A0W0cK8MpOA+xHdubuTnbsyLxwYhplzn/eeM5e5F0qVKlWqVKmMUoTJuCljRo5PMn7JmJfxWMY1xezJkGNv+uzyO/NpjuVcMzJuqIYjb8lRkfFIhrpEYuiextnekaPKZjnurjzTLc9DGYfygr8gx48MgzbHB1UZbYIflTHnlcOlY57rH94PvBngm2ocUMRBORo95zHO9wYfcVjGzz4GTuKt98zbKpVwVPwNGE/6hM8vHNN+8DWOFQ5tHRFlN+C4EwCw2qpwy6d9ZgsHto6Y8THwJcAK1H1aaDFAA4s+FXgfoIF3PhV4UDiwdcSkj4FLAQCrLS5mN3CELTK+BtQ+DcWMZDaQmjAuB2Tgihd8aiBmvRzPAoB/oQobvA2kJhy7ZXwuEL6eZZPUzcRRGQsFwH9XxHhf8G0mBvlRL8hRywW+ZS/reDUA+DnF7M8Vvm15vb+GbTO92n46XxNnWCfjuoylHOGXkt/lZOVbU/gWI46JleOQfme9oYizAwNvMRGzKy177/DPk6W6EPi2lrqa8bznT8sYt7WPjYQiGcfl+Jhh1uuKOE2IUpUdMl7+w8CsxthJyFLMyF++i6c6wTaGQRpjkxxTTW0zldxjmKQJtsrxRsbr5JphlBynZJwsmqNUqVKlSv2/+g37bEpVt6AN6AAAAABJRU5ErkJggg==">
         <link href="//cdn.jsdelivr.net/npm/json-formatter-js@2.3.4/dist/json-formatter.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
         <style>
+            :root {
+                --select-border: #777;
+                --select-focus: blue;
+                --select-arrow: var(--select-border);
+            }
+
             * {
                 box-sizing: border-box;
             }
@@ -85,14 +92,36 @@
 
             ::backdrop {
                 background-image: linear-gradient(
-                    45deg,
-                    magenta,
-                    rebeccapurple,
-                    dodgerblue,
-                    green
+                        45deg,
+                        magenta,
+                        rebeccapurple,
+                        dodgerblue,
+                        green
                 );
 
                 opacity: .75;
+            }
+
+            select {
+                width: 100%;
+                min-width: 15ch;
+                max-width: 30ch;
+                border: 1px solid var(--select-border);
+                border-radius: 0.25em;
+                padding: 0.25em 0.5em;
+                font-size: 1.25rem;
+                cursor: pointer;
+                line-height: 1.1;
+                background-color: #fff;
+                background-image: linear-gradient(to top, #f9f9f9, #fff 33%);
+            }
+
+            .select::after {
+                content: "";
+                width: 0.8em;
+                height: 0.5em;
+                background-color: var(--select-arrow);
+                clip-path: polygon(100% 0%, 0 0%, 50% 100%);
             }
         </style>
     </head>
@@ -107,13 +136,22 @@
                     <input id="password" type="password" placeholder="Password" class="field" autocomplete>
                 </label>
                 <br><br>
+                <label for="select"></label>
+                <div class="select">
+                    <select id="select">
+                        <option value="default">Default</option>
+                        <option value="slow">Slow</option>
+                        <option value="error">Error</option>
+                    </select>
+                </div>
+                <br>
                 <button id="confirmBtn" value="default" class="btn" disabled>Confirm</button>
                 <button value="cancel" formmethod="dialog" class="btn cancel">Cancel</button>
             </form>
         </dialog>
         <header></header>
         <main>
-            <p>
+            <p class="animate__animated animate__infinite animate__pulse animate__flash">
                 Example of using Web Tracer with document load instrumentation with console
                 exporter and collector exporter by Tom S.
             </p>
@@ -140,9 +178,10 @@
             const credentials = dialog.getElementsByTagName("input");
             const inputFieldUsername = document.getElementById("username");
             const inputFieldPassword = document.getElementById("password");
+            const select = document.getElementById("select");
             const clicks = fromEvent(document, "click");
 
-             const checkInputs = () => {
+            const checkInputs = () => {
                 if (inputFieldUsername.value.length > 0 && inputFieldPassword.value.length > 0) {
                     confirmBtn.removeAttribute("disabled");
                 } else {
@@ -159,8 +198,6 @@
 
             clicks.subscribe((pointerEvent) => {
                 if(pointerEvent.altKey) {
-                    const url = "http://localhost:8081/todos"; //const url = 'http://localhost:8081/todos?fail=77';
-
                     dialog.showModal();
 
                     confirmBtn.addEventListener("click", (event) => {
@@ -170,6 +207,15 @@
                         const loginPassword = credentials[1];
                         const loginNameValue = loginName.value;
                         const loginPasswordValue = loginPassword.value;
+                        const selected = select.value;
+                        console.log(selected);
+                        const fail = '?fail=77';
+                        const slow = '?slow=7';
+                        const nope = '';
+
+                        const add = selected === "error" ? fail : selected === "slow" ? slow : nope
+
+                        const url = `http://localhost:8081/todos${add}`; //const url = 'http://localhost:8081/todos?fail=77';
 
                         if(loginName && loginPassword) {
                             fetch(url, {
@@ -178,27 +224,27 @@
                                     "x-password": loginPasswordValue
                                 }
                             })
-                            .then((res) => res.json())
-                            .then((json) => json.todos)
-                            .then((todos) => {
-                                const formatter = new JSONFormatter(todos);
-                                const container = document.getElementById("container");
+                                .then((res) => res.json())
+                                .then((json) => json.todos)
+                                .then((todos) => {
+                                    const formatter = new JSONFormatter(todos);
+                                    const container = document.getElementById("container");
 
-                                container.innerHTML = "";
-                                container.appendChild(formatter.render());
+                                    container.innerHTML = "";
+                                    container.appendChild(formatter.render());
 
-                                dialog.close(loginNameValue);
+                                    dialog.close(loginNameValue);
 
-                                return todos;
-                            })
-                            .then((todos) => {
-                                if(!todos) {
-                                    setTimeout(() => {
-                                        dialog.showModal();
-                                    }, 1500);
-                                }
-                            })
-                            .catch(console.error);
+                                    return todos;
+                                })
+                                .then((todos) => {
+                                    if(!todos) {
+                                        setTimeout(() => {
+                                            dialog.showModal();
+                                        }, 1500);
+                                    }
+                                })
+                                .catch(console.error);
                         }
                     });
                 }
