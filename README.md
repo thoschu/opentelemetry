@@ -15,7 +15,7 @@ git clone https://github.com/thoschu/opentelemetry.git
 ```
 git checkout main
 
-git checkout manual-spans
+git checkout custom-span-attributes
 ```
 
 3. **Running it with docker:** 
