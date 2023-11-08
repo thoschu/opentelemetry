@@ -26,7 +26,7 @@ app.listen(port,(): void => {
 (async (): Promise<void> => {
     const tracer: Tracer = trace.getTracer('init user');
 
-    await tracer.startActiveSpan('### Set default user items', async (span: Span): Promise<void> => {
+    await tracer.startActiveSpan('# Set default user items', async (span: Span): Promise<void> => {
         await Promise.all([
                 redis.set('user:nonce', JSON.stringify({ username: 'Nobody', password: 'nope' })),
                 redis.set('user:tom', JSON.stringify({ username: 'Tom', password: 'mama' })),

@@ -53,7 +53,7 @@ app.listen(port, (): void => {
 
 
 (async (): Promise<void> => {
-    await trace.getTracer('init todo').startActiveSpan('### Set default todo items', async (span: Span): Promise<void> => {
+    await trace.getTracer('init todo').startActiveSpan('# Set default todo items', async (span: Span): Promise<void> => {
         await Promise.all([
             redis.set('todo:1', JSON.stringify({name: 'Install OpenTelemetry SDK!'})),
             redis.set('todo:2', JSON.stringify({name: 'Deploy OpenTelemetry Collector'})),
