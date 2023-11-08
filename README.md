@@ -20,8 +20,6 @@ git checkout manual-spans
 
 3. **Running it with docker:** 
 ```
-npm run build 
-
 docker compose up
 
 --- or
@@ -30,7 +28,6 @@ npm start
 ```
 
 3. **UI´s:**
-> [Frontend](http://localhost:8080/)
 
 > [Jaeger](http://localhost:16686/)
 > > https://www.jaegertracing.io/

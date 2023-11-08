@@ -1,29 +1,20 @@
 import start from './tracer';
 start('todo-service');
 
-import { IncomingHttpHeaders } from 'http';
 import express, { Response, Request, Express } from 'express';
-import cors from 'cors';
 import axios, {AxiosResponse} from 'axios';
 import { Redis } from 'ioredis';
-import { prop } from 'ramda';
 import { Span, trace } from '@opentelemetry/api';
 
 const port: string | number = process.env.PORT || 8081;
-const sleep = (time: number) => new Promise((resolve: (args: void) => void): NodeJS.Timeout => setTimeout(resolve, time));
+const sleep: (time: number) => Promise<void> = (time: number) => new Promise((resolve: (args: void) => void): NodeJS.Timeout => setTimeout(resolve, time));
 const redis: Redis = new Redis({host: 'redis'});
 const app: Express = express();
 
-app.use(cors())
-
 app.get('/todos', async (req: Request, res: Response): Promise<void> => {
-    const { headers }: { headers: IncomingHttpHeaders } = req;
-    const name: string | string[] = prop<'x-name', IncomingHttpHeaders>('x-name', headers);
-    const password: string | string[]  = prop<'x-password', IncomingHttpHeaders>('x-password', headers);
-
-    const user: AxiosResponse = await axios.get('http://auth:8082/auth',{ headers: { name, password } });
+    const user: AxiosResponse = await axios.get('http://auth:8082/auth');
     const todoKeys: string[] = await redis.keys('todo:*');
-    const todos: Record<string, unknown>[] = [];
+    const todos: Record<'name', string>[] = [];
 
     for (let i: number = 0; i < todoKeys.length; i++) {
         const todoItem: string | null = await redis.get(todoKeys[i]);
@@ -34,9 +25,8 @@ app.get('/todos', async (req: Request, res: Response): Promise<void> => {
     }
 
     if (req.query['slow']) {
-        await sleep(1000);
+        await sleep(3000);
     }
-
 
     if (req.query['fail']) {
         console.error('Failing request -> really bad error !!!');
@@ -45,17 +35,16 @@ app.get('/todos', async (req: Request, res: Response): Promise<void> => {
             throw new Error('Really bad error');
         } catch (error: unknown) {
             console.error(error);
-            res.sendStatus(500);
+
+            const exceptionError: Error = <Error>error;
+
+            res.status(500).send( { name: exceptionError.name, stack: exceptionError.stack, message: exceptionError.message } );
+
             return;
         }
     }
 
-    if(user.data.loggedIn) {
-        res.json({todos, user: user.data, env: process.env.NODE_ENV});
-        return;
-    }
-
-    res.json({todos: null, user: user.data, env: process.env.NODE_ENV});
+    res.json({ todos, user: user.data });
 })
 
 app.listen(port, (): void => {
@@ -64,7 +53,7 @@ app.listen(port, (): void => {
 
 
 (async (): Promise<void> => {
-    await trace.getTracer('init todos').startActiveSpan('Set default todo items', async (span: Span): Promise<void> => {
+    await trace.getTracer('init todo').startActiveSpan('### Set default todo items', async (span: Span): Promise<void> => {
         await Promise.all([
             redis.set('todo:1', JSON.stringify({name: 'Install OpenTelemetry SDK!'})),
             redis.set('todo:2', JSON.stringify({name: 'Deploy OpenTelemetry Collector'})),
