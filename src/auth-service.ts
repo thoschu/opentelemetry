@@ -16,7 +16,7 @@ app.get('/auth',async (req: Request, res: Response): Promise<void> => {
     const index: number = Math.floor(Math.random() * (max - min + 1)) + min;
     const redisResult: string = await redis.get(`${names[index]}`);
 
-    res.json({ user: JSON.parse(redisResult)})
+    res.json({ user: JSON.parse(redisResult)});
 })
 
 app.listen(port,(): void => {
