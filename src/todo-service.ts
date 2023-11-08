@@ -2,7 +2,7 @@ import start from './tracer';
 start('todo-service');
 
 import express, { Response, Request, Express } from 'express';
-import axios, {AxiosResponse} from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { Redis } from 'ioredis';
 import { Span, trace } from '@opentelemetry/api';
 

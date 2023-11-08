@@ -2,6 +2,8 @@
 
 ## 📊 Observability in Cloud Native and Frontend Apps using OpenTelemetry repository! This repository contains a demo application.
 
+### https://opentelemetry.io/docs/specs/otel/overview/
+
 ---
 
 1. **Clone the Repository: https://github.com/thoschu/opentelemetry** 
@@ -15,7 +17,7 @@ git clone https://github.com/thoschu/opentelemetry.git
 ```
 git checkout main
 
-git checkout manual-spans
+git checkout custom-span-attributes
 ```
 
 3. **Running it with docker:** 
