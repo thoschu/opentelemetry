@@ -4,10 +4,7 @@ import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
 import { Instrumentation } from '@opentelemetry/instrumentation';
 
 const start: (serviceName: string) => void = (serviceName: string): void => {
-    const inputConfigs: InstrumentationConfigMap = {
-        // https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/instrumentation-fs
-        '@opentelemetry/instrumentation-fs': { enabled: false }
-    };
+    const inputConfigs: InstrumentationConfigMap = {};
     const autoInstrumentations: Instrumentation[] = getNodeAutoInstrumentations(inputConfigs);
     const instrumentations: Instrumentation[][] = [autoInstrumentations];
     const traceExporter: OTLPTraceExporter = new OTLPTraceExporter({
