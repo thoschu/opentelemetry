@@ -4,7 +4,7 @@
 Add an environment variable like so
 ```
 environment:
-      - OTEL_LOG_LEVEL=ERROR
+      - OTEL_LOG_LEVEL=DEBUG
 ```
 
 ### Option #2 - via code

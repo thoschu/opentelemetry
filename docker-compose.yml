@@ -14,7 +14,7 @@ services:
       - "8081:8081"
     environment:
       - OTEL_SDK_DISABLED=false
-      - OTEL_LOG_LEVEL=ERROR
+      - OTEL_LOG_LEVEL=DEBUG
       - NODE_ENV=staging
     x-develop:
       watch:
