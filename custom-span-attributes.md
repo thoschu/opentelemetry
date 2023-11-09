@@ -1,5 +1,7 @@
 # Adding custom attributes
 
+### https://opentelemetry.io/docs/demo/manual-span-attributes/
+
 ❗ In Jaeger it´s the ``Tags`` ❗
 
 ### Add an import for OpenTelemetry API
