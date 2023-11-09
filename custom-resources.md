@@ -2,6 +2,12 @@
 
 #### https://opentelemetry.io/docs/instrumentation/js/resources/
 
+Resources describe the metadata / environment like:
+- Cloud region
+- Pod ID
+- Deploment number
+- Environmant
+
 ### Add an import for OpenTelemetry resources
 ```
 import { Resource } from '@opentelemetry/resources';
