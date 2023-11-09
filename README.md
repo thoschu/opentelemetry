@@ -18,7 +18,7 @@ git clone https://github.com/thoschu/opentelemetry.git
 ```
 git checkout main
 
-git checkout debug-with-logs
+git checkout custom-resources
 ```
 
 3. **Running it with docker:** 
