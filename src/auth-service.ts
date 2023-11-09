@@ -3,13 +3,10 @@ start('auth-service');
 
 import express, { Express, Request, Response } from 'express';
 import Redis from 'ioredis';
-import { diag, DiagConsoleLogger, DiagLogLevel } from '@opentelemetry/api';
 
 const port: string | number = process.env.PORT || 8082;
 const redis: Redis = new Redis({ host: 'redis' });
 const app: Express = express();
-
-diag.setLogger(new DiagConsoleLogger(), DiagLogLevel.ALL);
 
 app.get('/auth',async (req: Request, res: Response): Promise<void> => {
     const names: string[] = await redis.keys('user:*');
