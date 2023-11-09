@@ -1,5 +1,7 @@
 # Define custom resource
 
+#### https://opentelemetry.io/docs/instrumentation/js/resources/
+
 ### Add an import for OpenTelemetry resources
 ```
 import { Resource } from '@opentelemetry/resources';
@@ -13,4 +15,3 @@ resource: new Resource({
     'deployment':'4'
 })
 ```
-
