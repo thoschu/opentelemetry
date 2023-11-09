@@ -2,6 +2,9 @@
 
 ## 📊 Observability in Cloud Native and Frontend Apps using OpenTelemetry repository! This repository contains a demo application.
 
+### https://opentelemetry.io/ecosystem/registry/
+### https://opentelemetry.io/docs/specs/otel/overview/
+
 ---
 
 1. **Clone the Repository: https://github.com/thoschu/opentelemetry** 
