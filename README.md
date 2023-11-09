@@ -49,3 +49,5 @@ npm start
 *thoschu@gmail.com*
 
 > Software made with ❤️ in Hamburg - Germany 🇩🇪
+
+![qr-code](./assets/thomas-schulte.de.png)

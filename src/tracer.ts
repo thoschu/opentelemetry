@@ -4,7 +4,8 @@ import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
 import { Instrumentation } from '@opentelemetry/instrumentation';
 
 const start: (serviceName: string) => void = (serviceName: string): void => {
-    const instrumentations: Instrumentation[][] = [getNodeAutoInstrumentations()];
+    const autoInstrumentations: Instrumentation[] = getNodeAutoInstrumentations();
+    const instrumentations: Instrumentation[][] = [autoInstrumentations];
     const traceExporter: OTLPTraceExporter = new OTLPTraceExporter({
         url: 'http://jaeger:4318/v1/traces',
     });
