@@ -205,5 +205,17 @@
             });
         </script>
         <script type="module" src="document-load.ts"></script>
+        <script type="module">
+            // Create worker
+            const myWorker = new Worker(new URL('worker.js', import.meta.url));
+
+            // Send message to worker
+            myWorker.postMessage('Hello!');
+
+            // Receive message from worker
+            myWorker.onmessage = (e) => {
+                console.log(e.data);
+            }
+        </script>
     </body>
 </html>
