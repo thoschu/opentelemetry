@@ -1,8 +1,7 @@
-import { NodeSDK } from '@opentelemetry/sdk-node';
-import { getNodeAutoInstrumentations, InstrumentationConfigMap } from '@opentelemetry/auto-instrumentations-node';
-import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
-import { Instrumentation } from '@opentelemetry/instrumentation';
+# Configure instrumentations
 
+### Get the active span and add custom attributes
+```
 const start: (serviceName: string) => void = (serviceName: string): void => {
     const inputConfigs: InstrumentationConfigMap = {
         // https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/instrumentation-fs
@@ -22,5 +21,4 @@ const start: (serviceName: string) => void = (serviceName: string): void => {
 
     sdk.start();
 }
-
-export default start;
+```
