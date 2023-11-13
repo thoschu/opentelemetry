@@ -24,6 +24,16 @@ environment:
 
 Add the following code to the NodeSDK object
 ```
+autoDetectResources: true,
+resource: new Resource({
+    'code.owner': 'core-team',
+    'deployment': '4'
+})
+```
+like this:
+```
+// [...]
+
 const sdk: NodeSDK = new NodeSDK({
     traceExporter,
     serviceName,
@@ -34,4 +44,6 @@ const sdk: NodeSDK = new NodeSDK({
         'deployment': '4'
     }),
 });
+
+// [...]
 ```
