@@ -15,9 +15,11 @@ import { trace, Span } from '@opentelemetry/api';
 ```
 const span: Span = trace.getActiveSpan();
 
-// span?.setAttribute('key','value');
+// a single attribute
+span?.setAttribute('key', 'value');
 
-span?.setAttributes({ id: 1, nonce: index });
+// or multiple attributes at the same time
+span?.setAttributes({ key1: value1, key2: value2 });
 ```
 
 ---
