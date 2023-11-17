@@ -44,6 +44,4 @@ const sdk: NodeSDK = new NodeSDK({
         'deployment': '4'
     }),
 });
-
-// [...]
 ```
