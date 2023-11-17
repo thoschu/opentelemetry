@@ -23,6 +23,7 @@ environment:
 ```
 
 Add the following code to the NodeSDK object
+
 ```
 autoDetectResources: true,
 resource: new Resource({
@@ -30,10 +31,10 @@ resource: new Resource({
     'deployment': '4'
 })
 ```
-like this:
-```
-// [...]
 
+like this:
+
+```
 const sdk: NodeSDK = new NodeSDK({
     traceExporter,
     serviceName,
