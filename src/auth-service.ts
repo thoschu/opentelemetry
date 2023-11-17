@@ -17,10 +17,11 @@ app.get('/auth',async (req: Request, res: Response): Promise<void> => {
     const redisResult: string = await redis.get(`${names[index]}`);
     const user: Record<'username' | 'password', string> = JSON.parse(redisResult);
     const { username: userId }: { username: string } = user;
+    const span: Span = trace.getActiveSpan();
 
+    span?.setAttributes({ userId, nonce: index });
     // trace.getActiveSpan().setAttribute('username', username);
     // trace.getActiveSpan().setAttribute('nonce', index);
-    trace.getActiveSpan().setAttributes({ userId, nonce: index });
 
     res.json({ user });
 });
