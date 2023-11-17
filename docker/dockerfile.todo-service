@@ -1,10 +1,5 @@
 FROM node:16.20.2
 
-ENV USER_VARIABLE=papa
-
-LABEL "com.example.vendor"="thoschu" \
-      "com.example.version"="1.0"
-
 WORKDIR /usr/src/app
 
 COPY ./package.json ./
