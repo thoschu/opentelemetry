@@ -13,8 +13,9 @@
             export class SimpleGreeting extends LitElement {
                 static properties = {
                     name: {},
+                    by: {}
                 };
-                // Define scoped styles right with your component, in plain CSS
+
                 static styles = css`
                   :host {
                     color: blue;
@@ -23,19 +24,19 @@
 
                 constructor() {
                     super();
-                    // Declare reactive properties
+
                     this.name = 'World';
                 }
 
-                // Render the UI as a function of component state
                 render() {
-                    return html`<p>Hello, ${ this.name }!</p>`;
+                    return html`<p>Hello, ${ this.name }! By ${ this.by }...</p>`;
                 }
             }
+
             customElements.define('thoschu-greeting', SimpleGreeting);
         </script>
     </head>
     <body>
-        <thoschu-greeting name="Awesome"></thoschu-greeting>
+        <thoschu-greeting by="Tom"></thoschu-greeting>
     </body>
 </html>
