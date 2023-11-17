@@ -17,7 +17,7 @@
     "parcel": "npx parcel src/private/index.html",
     "jspm": "npx jspm link src/private/lit.html -o src/private/lit.html",
     "http-server": "npx http-server -o src/private/lit.html -c-1",
-    "serve:lit": "npm run jspm && npm run http-server",
+    "build:serve:lit": "npm run jspm && npm run http-server",
     "build": "npm run clean:.parcel-cache && npm run clean:src/public && parcel build --dist-dir src/public",
     "clean": "npx concurrently 'npm run clean:node_modules' 'npm run clean:yarn.lock'",
     "clean:node_modules": "npx rimraf node_modules",
