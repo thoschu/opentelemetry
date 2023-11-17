@@ -25,18 +25,20 @@ Add the following code to the docker-compose.yml
 ```
 environment:
   - NODE_ENV=staging
+  - CODE_VERSION=77
 ```
 
 Add the following code to the NodeSDK object
 
 ```
-autoDetectResources: true,
+autoDetectResources: false,
 
 // and/or 
 
 resource: new Resource({
-    'code.owner': 'core-team',
-    'deployment': '13'
+  'code.owner': 'core-team',
+  'deployment': '13',
+  'code_version': process.env.CODE_VERSION,
 })
 ```
 
@@ -47,7 +49,7 @@ const sdk: NodeSDK = new NodeSDK({
     traceExporter,
     serviceName,
     instrumentations,
-    // autoDetectResources: true,
+    autoDetectResources: false,
     resource: new Resource({
         'code.owner': 'core-team',
         'deployment': '4'
