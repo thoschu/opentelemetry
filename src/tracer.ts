@@ -3,10 +3,27 @@ import { getNodeAutoInstrumentations, InstrumentationConfigMap } from '@opentele
 import { ParentBasedSampler, TraceIdRatioBasedSampler } from '@opentelemetry/sdk-trace-base'
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
 import { Instrumentation } from '@opentelemetry/instrumentation';
+import {ExporterConfig, PrometheusExporter} from '@opentelemetry/exporter-prometheus';
+import { MeterProvider } from '@opentelemetry/sdk-metrics';
+import { Resource } from '@opentelemetry/resources';
+import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+import { Meter } from '@opentelemetry/api';
 
 import { CustomSampler } from './customSampler';
 
-const start: (serviceName: string) => void = (serviceName: string): void => {
+const start: (serviceName: string) => Meter = (serviceName: string): Meter => {
+    const { endpoint, port }: { endpoint: string, port: number } = PrometheusExporter.DEFAULT_OPTIONS;
+    const options: ExporterConfig = { port, endpoint };
+    const exporter: PrometheusExporter = new PrometheusExporter(options, (): void => {
+        console.log(`Prometheus scrape endpoint: http://localhost:${port}${endpoint}`);
+    });
+    const meterProvider: MeterProvider = new MeterProvider({
+        resource: new Resource({ [SemanticResourceAttributes.SERVICE_NAME]: serviceName })
+    });
+
+    meterProvider.addMetricReader(exporter);
+    const meter: Meter = meterProvider.getMeter(`${serviceName}-service-meter`);
+
     const inputConfigs: InstrumentationConfigMap = {};
     const autoInstrumentations: Instrumentation[] = getNodeAutoInstrumentations(inputConfigs);
     const instrumentations: Instrumentation[][] = [autoInstrumentations];
@@ -27,6 +44,8 @@ const start: (serviceName: string) => void = (serviceName: string): void => {
     const sdk: NodeSDK = new NodeSDK(configuration);
 
     sdk.start();
+
+    return meter;
 }
 
 export default start;

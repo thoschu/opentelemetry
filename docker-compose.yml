@@ -65,5 +65,15 @@ services:
       - "16686:16686"
     environment:
       COLLECTOR_OTLP_ENABLED: true
+  prometheus:
+    networks:
+      - backend
+    image: prom/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+    ports:
+      - "9090:9090"
 networks:
   backend:

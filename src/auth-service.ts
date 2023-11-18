@@ -1,12 +1,30 @@
 import start from './tracer';
-start('auth-service');
+const meter: Meter = start('auth-service');
+const calls: Histogram<Attributes> = meter.createHistogram('http-calls');
 
-import express, { Express, Request, Response } from 'express';
+import express, { Express, NextFunction, Request, Response } from 'express';
 import Redis from 'ioredis';
+import { Attributes, Histogram, Meter } from '@opentelemetry/api';
 
 const port: string | number = process.env.PORT || 8082;
 const redis: Redis = new Redis({ host: 'redis' });
 const app: Express = express();
+
+app.use((req: Request, res: Response, next: NextFunction): void => {
+    const startTime: number = Date.now();
+
+    req.on('end',(): void=> {
+        const endTime: number = Date.now();
+
+        calls.record(endTime-startTime,{
+            route: req.route?.path,
+            status: res.statusCode,
+            method: req.method
+        });
+    });
+
+    next();
+});
 
 app.get('/auth',async (req: Request, res: Response): Promise<void> => {
     const names: string[] = await redis.keys('user:*');
