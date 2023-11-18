@@ -13,24 +13,32 @@
 git clone https://github.com/thoschu/opentelemetry.git
 ```
 
-2. **Checkout main branch:** 
+2. **Checkout branch:** 
 
 ```
 git checkout main
 ```
 
+```
+git checkout metrics
+```
+
 3. **Running it with docker:** 
+
 ```
 npm run build 
 
 docker compose up
+```
 
---- or
+or
 
+```
 npm start
 ```
 
 3. **Services:**
+
 > [Frontend](http://localhost:8080/)
 
 > [Jaeger](http://localhost:16686/)
