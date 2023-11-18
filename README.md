@@ -9,29 +9,29 @@
 
 1. **Clone the Repository: https://github.com/thoschu/opentelemetry** 
 
-```
+```bash
 git clone https://github.com/thoschu/opentelemetry.git
 ```
 
 2. **Checkout branch:** 
 
-```
+```bash
 git checkout main
 ```
 
-```
+```bash
 git checkout sampling-traces
 ```
 
 3. **Running it with docker:** 
 
-```
+```bash
 docker compose up
 ```
 
 or
 
-```
+```bash
 npm start
 ```
 
@@ -52,8 +52,6 @@ npm start
 > > https://prometheus.io/
 
 > [ToDo Service](http://localhost:8081/todos)
-
----
 
 ---
 
