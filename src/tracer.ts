@@ -11,7 +11,6 @@ const start: (serviceName: string) => void = (serviceName: string): void => {
     const autoInstrumentations: Instrumentation[] = getNodeAutoInstrumentations(inputConfigs);
     const instrumentations: Instrumentation[][] = [autoInstrumentations];
     const traceExporter: OTLPTraceExporter = new OTLPTraceExporter({ url: 'http://jaeger:4318/v1/traces' });
-    const autoDetectResources: boolean = true;
     const customSamplerRoot: CustomSampler = new CustomSampler();
     const traceIdRatioBasedSamplerRoot: TraceIdRatioBasedSampler = new TraceIdRatioBasedSampler(1);
     const sampler: ParentBasedSampler = new ParentBasedSampler({
@@ -22,7 +21,6 @@ const start: (serviceName: string) => void = (serviceName: string): void => {
         traceExporter,
         serviceName,
         instrumentations,
-        autoDetectResources,
         sampler
     };
 
