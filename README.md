@@ -41,10 +41,13 @@ npm start
 > > https://github.com/joeferner/redis-commander
 
 > [ToDo Service](http://localhost:8081/todos)
+
 ---
 
-📯
+📬
 *Tom S.*
-*thoschu@gmail.com*
+*```thoschulte@gmail.com```*
 
-> Software made with ❤️ in Hamburg - Germany 🇩🇪
+Software made with ❤️ in Hamburg 🇩🇪
+
+![qr-code](./assets/thomas-schulte.de.png)
