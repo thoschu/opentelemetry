@@ -9,29 +9,29 @@
 
 1. **Clone the Repository: https://github.com/thoschu/opentelemetry** 
 
-```
+```bash
 git clone https://github.com/thoschu/opentelemetry.git
 ```
 
 2. **Checkout branch:** 
 
-```
+```bash
 git checkout main
 ```
 
-```
+```bash
 git checkout debug-with-logs
 ```
 
 3. **Running it with docker:** 
 
-```
+```bash
 docker compose up
 ```
 
 or
 
-```
+```bash
 npm start
 ```
 
