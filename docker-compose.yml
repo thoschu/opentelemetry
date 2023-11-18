@@ -14,8 +14,6 @@ services:
       - "8081:8081"
     environment:
       - OTEL_SDK_DISABLED=false
-      - NODE_ENV=staging
-      - CODE_VERSION=${VERSION}
     x-develop:
       watch:
         - action: sync
@@ -33,9 +31,6 @@ services:
     image: auth-service
     volumes:
       - .:/usr/src/app:rw
-    environment:
-      - NODE_ENV=staging
-      - CODE_VERSION=${VERSION}
     x-develop:
       watch:
         - action: sync
