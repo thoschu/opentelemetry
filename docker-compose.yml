@@ -92,6 +92,9 @@ services:
     ports:
       - "9090:9090"
   collector:
+    networks:
+      - backend
+    container_name: otel-collector
     image: otel/opentelemetry-collector-contrib
     volumes:
       - ./collector/collector.yml:/etc/otel-collector-config.yaml
