@@ -17,22 +17,28 @@ git clone https://github.com/thoschu/opentelemetry.git
 
 ```
 git checkout main
+```
 
+```
 git checkout init
 ```
 
 3. **Running it with docker:** 
+
 ```
 npm run build 
 
 docker compose up
+```
 
---- or
+or
 
+```
 npm start
 ```
 
 3. **Services:**
+
 > [Frontend](http://localhost:8080/)
 
 > [Redis](http://localhost:8088/)
