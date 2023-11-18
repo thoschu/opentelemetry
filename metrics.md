@@ -77,7 +77,7 @@ Then, and the following:
 
 ```
 const meter: Meter = start('todo-service');
-const calls: Meter = meter.createHistogram('http-calls');
+const calls: Histogram<Attributes> = meter.createHistogram('http-calls');
 
 app.use((req: Request, res: Response, next: NextFunction): void => {
     const startTime: number = Date.now();
