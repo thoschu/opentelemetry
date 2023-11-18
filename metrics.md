@@ -1,7 +1,7 @@
 # Metrics
 
 ### Install OpenTelemetry libraries
-```
+```bash
 yarn add @opentelemetry/sdk-metrics @opentelemetry/exporter-prometheus
 ```
 
@@ -12,7 +12,7 @@ In it create a `prometheus.yml` file
 
 Enter the following content to the newly created file
 
-```
+```yaml
 global:
   scrape_interval: 1s # Bad!! just for demo
 
@@ -27,7 +27,7 @@ scrape_configs:
 
 ### Running Prometheus
 
-```
+```yml
   prometheus:
     networks:
       - backend
@@ -44,16 +44,15 @@ scrape_configs:
 ### Configure && expose OpenTelemetry meter
 In the `tracer.ts` file add the following importers
 
-```
+```typescript
 import { PrometheusExporter } from '@opentelemetry/exporter-prometheus';
 import { MeterProvider } from '@opentelemetry/sdk-metrics';
 import { Resource } from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
-
 ```
 
-Then add the following to the `start` function
-```
+Then add the following to the **start** function
+```typescript
     const { endpoint, port }: { endpoint: string, port: number } = PrometheusExporter.DEFAULT_OPTIONS;
     const options: ExporterConfig = { port, endpoint };
     const exporter: PrometheusExporter = new PrometheusExporter(options, (): void => {
@@ -73,9 +72,9 @@ And return the meter `return meter;`
 ### Report metrics 
 Get the meter from the tracer import `const meter: Meter = start('service');`
 
-Then, and the following: 
+Then, and the following
 
-```
+```typescript
 const meter: Meter = start('todo-service');
 const calls: Histogram<Attributes> = meter.createHistogram('http-calls');
 
