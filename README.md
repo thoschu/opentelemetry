@@ -13,15 +13,18 @@
 git clone https://github.com/thoschu/opentelemetry.git
 ```
 
-2. **Checkout main branch:** 
+2. **Checkout branch:** 
 
 ```
 git checkout main
+```
 
+```
 git checkout sampling-traces
 ```
 
 3. **Running it with docker:** 
+
 ```
 docker compose up
 ```
