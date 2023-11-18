@@ -1,14 +1,32 @@
 import start from './tracer';
-start('todo-service');
+const meter: Meter = start('todo-service');
+const calls: Histogram<Attributes> = meter.createHistogram('http-calls');
 
-import express, { Response, Request, Express } from 'express';
+import express, { Response, Request, Express, NextFunction } from 'express';
 import axios, { AxiosResponse } from 'axios';
 import { Redis } from 'ioredis';
+import { Attributes, Histogram, Meter } from '@opentelemetry/api';
 
 const port: string | number = process.env.PORT || 8081;
 const sleep: (time: number) => Promise<void> = (time: number) => new Promise((resolve: (args: void) => void): NodeJS.Timeout => setTimeout(resolve, time));
-const redis: Redis = new Redis({host: 'redis'});
+const redis: Redis = new Redis({ host: 'redis' });
 const app: Express = express();
+
+app.use((req: Request, res: Response, next: NextFunction): void => {
+    const startTime: number = Date.now();
+
+    req.on('end',(): void=> {
+        const endTime: number = Date.now();
+
+        calls.record(endTime-startTime,{
+            route: req.route?.path,
+            status: res.statusCode,
+            method: req.method
+        });
+    });
+
+    next();
+});
 
 app.get('/todos', async (req: Request, res: Response): Promise<void> => {
     const user: AxiosResponse = await axios.get('http://auth:8082/auth');
