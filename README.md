@@ -13,7 +13,7 @@
 git clone https://github.com/thoschu/opentelemetry.git
 ```
 
-2. **Checkout main branch:** 
+2. **Checkout branch:** 
 
 ```
 git checkout main
