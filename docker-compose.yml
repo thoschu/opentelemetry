@@ -64,6 +64,7 @@ services:
   jaeger:
     networks:
       - backend
+    container_name: jaeger
     image: jaegertracing/all-in-one
     ports:
       - "4318"
