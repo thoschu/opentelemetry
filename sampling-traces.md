@@ -16,25 +16,26 @@ In OpenTelemetry, sampling refers to the process of determining which spans shou
   * Purpose: The goal is to capture the end of a trace, focusing on requests or transactions with longer durations or unusual behavior.
   * In Otel Collector
 
-### Create customSampler.ts file
-```
-import { Attributes, Context, Link, SpanKind } from "@opentelemetry/api";
-import { PrometheusExporter } from "@opentelemetry/exporter-prometheus";
-import { Sampler, SamplingResult, SamplingDecision } from "@opentelemetry/sdk-trace-base";
+### Create custom-sampler.ts file
+```typescript
+import { Attributes, Context, Link, SpanKind } from '@opentelemetry/api';
+import { PrometheusExporter } from '@opentelemetry/exporter-prometheus';
+import { Sampler, SamplingResult, SamplingDecision } from '@opentelemetry/sdk-trace-base';
 import { SemanticAttributes } from '@opentelemetry/semantic-conventions';
 
-const { endpoint } = PrometheusExporter.DEFAULT_OPTIONS;
-
 export class CustomSampler implements Sampler {
-    shouldSample(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: Attributes, links: Link[]): SamplingResult {
-        if(attributes[SemanticAttributes.HTTP_TARGET] === endpoint){
-            return {
-                decision:SamplingDecision.NOT_RECORD
-            }
+    public shouldSample(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: Attributes, links: Link[]): SamplingResult {
+        const { endpoint }: { endpoint: string } = PrometheusExporter.DEFAULT_OPTIONS;
+        let decision: SamplingDecision;
+
+        if (attributes[SemanticAttributes.HTTP_TARGET] === endpoint) {
+            decision = SamplingDecision.NOT_RECORD;
+        } else {
+            decision = SamplingDecision.RECORD_AND_SAMPLED;
         }
 
         return {
-            decision:SamplingDecision.RECORD_AND_SAMPLED
+            decision
         }
     }
 }
@@ -42,14 +43,29 @@ export class CustomSampler implements Sampler {
 
 Add the following code to the NodeSDK object
 
-```
+```typescript
 // [...]
 
-import { CustomSampler } from './customSampler';
+import { CustomSampler } from './custom-sampler';
 
 sampler: new ParentBasedSampler({
     root: new CustomSampler()
-}),
+})
+```
+
+like this
+
+```typescript
+// [...]
+
+const sdk: NodeSDK = new NodeSDK({
+  traceExporter,
+  serviceName,
+  instrumentations,
+  sampler: new ParentBasedSampler({
+    root: new CustomSampler()
+  })    
+});
 ```
 
 ---

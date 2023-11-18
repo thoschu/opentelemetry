@@ -9,7 +9,9 @@ import { Resource } from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 import { Meter } from '@opentelemetry/api';
 
-import { CustomSampler } from './customSampler';
+import { CustomSampler } from './custom-sampler';
+
+type UpperCappedRatioNumber = 0 | .1 | .2 | .3 | .4 | .5 | .6 | .7 | .8 | .9 | 1;
 
 const start: (serviceName: string) => Meter = (serviceName: string): Meter => {
     const { endpoint, port }: { endpoint: string, port: number } = PrometheusExporter.DEFAULT_OPTIONS;
@@ -30,10 +32,10 @@ const start: (serviceName: string) => Meter = (serviceName: string): Meter => {
     const traceExporter: OTLPTraceExporter = new OTLPTraceExporter({ url: 'http://jaeger:4318/v1/traces' });
     // ToDo:
     const customSamplerRoot: CustomSampler = new CustomSampler();
-    const traceIdRatioBasedSamplerRoot: TraceIdRatioBasedSampler = new TraceIdRatioBasedSampler(1);
+    const ratio: UpperCappedRatioNumber = 1; // 0 - 1 as float
+    const traceIdRatioBasedSamplerRoot: TraceIdRatioBasedSampler = new TraceIdRatioBasedSampler(ratio);
     const sampler: ParentBasedSampler = new ParentBasedSampler({
-        // root: customSamplerRoot
-        root: traceIdRatioBasedSamplerRoot
+        root: ratio === 1 ? customSamplerRoot : traceIdRatioBasedSamplerRoot,
     });
     const configuration: Partial<NodeSDKConfiguration> = {
         traceExporter,

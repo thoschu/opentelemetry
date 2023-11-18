@@ -6,23 +6,16 @@ import { SemanticAttributes } from '@opentelemetry/semantic-conventions';
 export class CustomSampler implements Sampler {
     public shouldSample(context: Context, traceId: string, spanName: string, spanKind: SpanKind, attributes: Attributes, links: Link[]): SamplingResult {
         const { endpoint }: { endpoint: string } = PrometheusExporter.DEFAULT_OPTIONS;
-
-
-        console.log('######');
-        console.log(endpoint);
-        console.log(SemanticAttributes.HTTP_TARGET);
-
-        console.log('*******');
+        let decision: SamplingDecision;
 
         if (attributes[SemanticAttributes.HTTP_TARGET] === endpoint) {
-
-            return {
-                decision: SamplingDecision.NOT_RECORD
-            }
+            decision = SamplingDecision.NOT_RECORD;
+        } else {
+            decision = SamplingDecision.RECORD_AND_SAMPLED;
         }
 
         return {
-            decision: SamplingDecision.RECORD_AND_SAMPLED
+            decision
         }
     }
 }
