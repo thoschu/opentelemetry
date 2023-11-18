@@ -56,7 +56,7 @@ npm start
 
 📬
 *Tom S.*
-*thoschulte@gmail.com*
+*```thoschulte@gmail.com```*
 
 Software made with ❤️ in Hamburg 🇩🇪
 
