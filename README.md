@@ -40,6 +40,12 @@ npm start
 > 
 > > https://github.com/joeferner/redis-commander
 
+> [Prometheus](http://localhost:9090/)
+>
+> > ```histogram_quantile(0.95, sum(rate(http_calls_bucket[1m])) by (le, route)) ```
+>
+> > https://prometheus.io/
+
 > [ToDo Service](http://localhost:8081/todos)
 
 ---
