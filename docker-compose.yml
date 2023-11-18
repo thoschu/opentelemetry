@@ -59,6 +59,7 @@ services:
   jaeger:
     networks:
       - backend
+    container_name: jaeger
     image: jaegertracing/all-in-one
     ports:
       - "4318"
@@ -68,6 +69,7 @@ services:
   prometheus:
     networks:
       - backend
+    container_name: prometheus
     image: prom/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
