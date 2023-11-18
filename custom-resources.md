@@ -16,13 +16,13 @@ Resources describe the metadata / environment like:
   - production
 
 ### Add an import for OpenTelemetry resources
-```
+```typescript
 import { Resource } from '@opentelemetry/resources';
 ```
 
 ### Add custom resource
 Add the following code to the docker-compose.yml
-```
+```yml
 environment:
   - NODE_ENV=staging
   - CODE_VERSION=77
@@ -30,21 +30,24 @@ environment:
 
 Add the following code to the NodeSDK object
 
+```typescript
+autoDetectResources: false
 ```
-autoDetectResources: false,
 
-// and/or 
+and / or
 
+```typescript
 resource: new Resource({
   'code.owner': 'core-team',
   'deployment': '13',
   'code_version': process.env.CODE_VERSION,
+  // [...]
 })
 ```
 
-like this:
+like this
 
-```
+```typescript
 const sdk: NodeSDK = new NodeSDK({
     traceExporter,
     serviceName,
@@ -52,7 +55,7 @@ const sdk: NodeSDK = new NodeSDK({
     autoDetectResources: false,
     resource: new Resource({
         'code.owner': 'core-team',
-        'deployment': '4'
+        'deployment': '4',
     }),
 });
 ```
