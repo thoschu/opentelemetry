@@ -17,16 +17,21 @@ git clone https://github.com/thoschu/opentelemetry.git
 
 ```
 git checkout main
+```
 
+```
 git checkout configure-instrumentations
 ```
 
-3. **Running it with docker:** 
+3. **Running it with docker:**
+
 ```
 docker compose up
+```
 
---- or
+or
 
+```
 npm start
 ```
 
