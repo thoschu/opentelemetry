@@ -30,7 +30,7 @@ docker compose up
 npm start
 ```
 
-3. **UI´s:**
+3. **Services:**
 
 > [Jaeger](http://localhost:16686/)
 > > https://www.jaegertracing.io/
