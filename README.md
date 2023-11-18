@@ -9,19 +9,19 @@
 
 1. **Clone the Repository: https://github.com/thoschu/opentelemetry** 
 
-```
+```bash
 git clone https://github.com/thoschu/opentelemetry.git
 ```
 
 2. **Checkout main branch:** 
 
-```
+```bash
 git checkout main
 ```
 
 3. **Running it with docker:** 
 
-```
+```bash
 docker-compose up
 ```
 
