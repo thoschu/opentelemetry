@@ -20,6 +20,7 @@ git checkout main
 ```
 
 3. **Running it with docker:** 
+
 ```
 docker-compose up
 ```
