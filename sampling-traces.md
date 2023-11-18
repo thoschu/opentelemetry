@@ -18,7 +18,7 @@ In OpenTelemetry, sampling refers to the process of determining which spans shou
 
 ### Create custom-sampler.ts file
 ```typescript
-import { Attributes, Context, Link, SpanKind } from '@opentelemetry/api';
+import { Attributes, AttributeValue, Context, Link, SpanKind } from '@opentelemetry/api';
 import { PrometheusExporter } from '@opentelemetry/exporter-prometheus';
 import { Sampler, SamplingResult, SamplingDecision } from '@opentelemetry/sdk-trace-base';
 import { SemanticAttributes } from '@opentelemetry/semantic-conventions';

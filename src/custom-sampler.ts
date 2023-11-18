@@ -1,4 +1,4 @@
-import {Attributes, AttributeValue, Context, Link, SpanKind} from '@opentelemetry/api';
+import { Attributes, AttributeValue, Context, Link, SpanKind } from '@opentelemetry/api';
 import { PrometheusExporter } from '@opentelemetry/exporter-prometheus';
 import { Sampler, SamplingResult, SamplingDecision } from '@opentelemetry/sdk-trace-base';
 import { SemanticAttributes } from '@opentelemetry/semantic-conventions';
