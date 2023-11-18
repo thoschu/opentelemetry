@@ -1,7 +1,7 @@
 # Configure instrumentations
 
 ### Get the active span and add custom attributes
-```
+```typescript
 const start: (serviceName: string) => void = (serviceName: string): void => {
     const inputConfigs: InstrumentationConfigMap = {
         // https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/instrumentation-fs
