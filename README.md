@@ -32,7 +32,7 @@ docker compose up
 npm start
 ```
 
-3. **UI´s:**
+3. **Services:**
 > [Frontend](http://localhost:8080/)
 
 > [Redis](http://localhost:8088/)
