@@ -13,20 +13,25 @@
 git clone https://github.com/thoschu/opentelemetry.git
 ```
 
-2. **Checkout main branch:** 
+2. **Checkout branch:** 
 
 ```
 git checkout main
+```
 
+```
 git checkout custom-span-attributes
 ```
 
 3. **Running it with docker:** 
+
 ```
 docker compose up
+```
 
---- or
+or
 
+```
 npm start
 ```
 
