@@ -24,13 +24,15 @@ git checkout custom-resources
 3. **Running it with docker:** 
 ```
 docker compose up
+```
 
---- or
+or
 
+```
 npm start
 ```
 
-3. **UI´s:**
+3. **Services:**
 
 > [Jaeger](http://localhost:16686/)
 > > https://www.jaegertracing.io/
@@ -50,10 +52,12 @@ npm start
 
 ---
 
-📯
-*Tom S.*
-*thoschu@gmail.com*
+---
 
-> Software made with ❤️ in Hamburg - Germany 🇩🇪
+📬
+*Tom S.*
+*thoschulte@gmail.com*
+
+Software made with ❤️ in Hamburg 🇩🇪
 
 ![qr-code](./assets/thomas-schulte.de.png)
