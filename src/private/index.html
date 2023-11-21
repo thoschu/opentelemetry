@@ -20,6 +20,11 @@
         <link rel="icon" type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAACKUlEQVR4nO2YPWsUURSGH/ADLNSAYKFWoo0Iohs12b1nRjSg2GurdvoPxEpLC0WxtfEvGIt0SrRQC2MaQTSChaJZ1A0W0cK8MpOA+xHdubuTnbsyLxwYhplzn/eeM5e5F0qVKlWqVKmMUoTJuCljRo5PMn7JmJfxWMY1xezJkGNv+uzyO/NpjuVcMzJuqIYjb8lRkfFIhrpEYuiextnekaPKZjnurjzTLc9DGYfygr8gx48MgzbHB1UZbYIflTHnlcOlY57rH94PvBngm2ocUMRBORo95zHO9wYfcVjGzz4GTuKt98zbKpVwVPwNGE/6hM8vHNN+8DWOFQ5tHRFlN+C4EwCw2qpwy6d9ZgsHto6Y8THwJcAK1H1aaDFAA4s+FXgfoIF3PhV4UDiwdcSkj4FLAQCrLS5mN3CELTK+BtQ+DcWMZDaQmjAuB2Tgihd8aiBmvRzPAoB/oQobvA2kJhy7ZXwuEL6eZZPUzcRRGQsFwH9XxHhf8G0mBvlRL8hRywW+ZS/reDUA+DnF7M8Vvm15vb+GbTO92n46XxNnWCfjuoylHOGXkt/lZOVbU/gWI46JleOQfme9oYizAwNvMRGzKy177/DPk6W6EPi2lrqa8bznT8sYt7WPjYQiGcfl+Jhh1uuKOE2IUpUdMl7+w8CsxthJyFLMyF++i6c6wTaGQRpjkxxTTW0zldxjmKQJtsrxRsbr5JphlBynZJwsmqNUqVKlSv2/+g37bEpVt6AN6AAAAABJRU5ErkJggg==">
         <link href="//cdn.jsdelivr.net/npm/json-formatter-js@2.3.4/dist/json-formatter.min.css" rel="stylesheet">
         <style>
+            :root {
+                --akzentfarbe: #8a34db;
+                --akzentrahmen: solid
+            }
+
             * {
                 box-sizing: border-box;
             }
@@ -30,9 +35,13 @@
             }
 
             main p::first-letter {
-                color: #db3466;
+                color: var(--akzentfarbe);
 
                 initial-letter: 5 2;
+            }
+
+            main code a {
+                color: var(--akzentfarbe);
             }
 
             h1 {
