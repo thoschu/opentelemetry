@@ -17,6 +17,20 @@ textMapPropagator: new CompositePropagator({
 })
 ```
 
+like this
+
+```typescript
+const sdk: NodeSDK = new NodeSDK({
+    // [...]
+    textMapPropagator: new CompositePropagator({
+        propagators: [
+            new W3CTraceContextPropagator(),
+            new W3CBaggagePropagator()
+        ]
+    })
+});
+```
+
 ### Set the baggage
 Create the baggage before we call auth service
 ```typescript
@@ -27,11 +41,10 @@ const baggage: Baggage = propagation.createBaggage({
         value: "value1"
     }
 });
-const activeContext: Context = context.active();
-const contextWithBaggage: Context = propagation.setBaggage(activeContext, baggage);
+const contextWithBaggage: Context = propagation.setBaggage(context.active(), baggage);
 ```
 
-### Use the context with baggage to call auth service
+### Use the context with baggage to call a service
 ```typescript
 context.with(contextWithBaggage, async () => {
     /// Any new span in this context will have the baggage. 
