@@ -36,7 +36,6 @@ app.get('/todos', async (req: Request, res: Response): Promise<void> => {
         await sleep(1000);
     }
 
-
     if (req.query['fail']) {
         console.error('Failing request -> really bad error !!!');
 
