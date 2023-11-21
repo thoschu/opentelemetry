@@ -9,7 +9,7 @@ export class CustomSampler implements Sampler {
         const attribute: AttributeValue = attributes[SemanticAttributes.HTTP_TARGET];
         let decision: SamplingDecision;
 
-        console.info({attribute, endpoint});
+        console.log(JSON.stringify(attributes));
 
         if (attribute === endpoint) {
             decision = SamplingDecision.NOT_RECORD;
