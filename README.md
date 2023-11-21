@@ -20,7 +20,7 @@ git checkout main
 ```
 
 ```bash
-git checkout configure-instrumentations
+git checkout context-propagation-and-baggage
 ```
 
 3. **Running it with docker:**
