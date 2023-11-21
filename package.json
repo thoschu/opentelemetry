@@ -1,6 +1,7 @@
 {
   "name": "opentelemetry",
   "version": "0.0.2",
+  "version.name": "traces",
   "source": "./src/private/index.html",
   "browserslist": ["> 0.5%", "last 2 versions", "not dead"],
   "author": "Tom S. - HH | thoschulte@gmail.com",
@@ -19,7 +20,6 @@
     "clean": "npx concurrently 'npm run clean:node_modules' 'npm run clean:yarn.lock'",
     "clean:node_modules": "npx rimraf node_modules",
     "clean:src/public": "npx concurrently 'npx rimraf src/public/*.js' 'npx rimraf src/public/*.map' 'npx rimraf src/public/*.html'",
-    "clean:yarn.lock": "npx rimraf yarn.lock",
     "clean:.parcel-cache": "npx rimraf .parcel-cache"
   },
   "dependencies": {
