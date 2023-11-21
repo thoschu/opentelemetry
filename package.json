@@ -14,8 +14,7 @@
     "ui": "ts-node-dev --inspect -- src/ui-service.ts",
     "watch": "npx watch 'yarn start' .",
     "clean": "npx concurrently 'npm run clean:node_modules' 'npm run clean:yarn.lock'",
-    "clean:node_modules": "npx rimraf node_modules",
-    "clean:yarn.lock": "npx rimraf yarn.lock"
+    "clean:node_modules": "npx rimraf node_modules"
   },
   "dependencies": {
     "@opentelemetry/api": "^1.4.1",
