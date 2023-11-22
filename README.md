@@ -7,6 +7,23 @@
 
 ---
 
+| Tag name | Branch name                     | description                              |
+| -------- | ------------------------------- | ---------------------------------------- |
+|   1      | init                            | Basic´s OpenTelemetry installation       |
+|   2      | traces                          | Distributed traces                       |
+|   3      | metrics                         | Adding Metrics                           |
+|   4      | traces-with-logs                | Correlating logs with traces             |
+|   5      | manual-spans                    | Creating manual spans                    |
+|   6      | custom-span-attributes          | Adding custom attributes to spans        |
+|   7      | configure-instrumentations      | Configure instrumentations               |
+|   8      | debug-with-logs                 | Debug logs                               |
+|   9      | custom-resources                | Define custom resources                  |
+|   10     | sampling-traces                 | Configure custom sampler                 |
+|   11     | context-propagation-and-baggage | Using context propagation to set baggage |
+
+
+---
+
 1. **Clone the Repository: https://github.com/thoschu/opentelemetry** 
 
 ```bash
