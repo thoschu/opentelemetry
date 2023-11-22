@@ -7,6 +7,8 @@ By default, the Node SDK uses the `BatchSpanProcessor`, and this span processor 
 
 https://opentelemetry.io/docs/instrumentation/js/manual/
 
+https://open-telemetry.github.io/opentelemetry-js/classes/_opentelemetry_sdk_trace_base.BatchSpanProcessor.html
+
 https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/opentelemetry-sdk-trace-base/src/export
 
 ### Option #1 - via code
@@ -58,14 +60,19 @@ const sdk: NodeSDK = new NodeSDK({
 });
 ```
 
-### Option #1 - via env variable 
+### Option #1 - via env variable
 
 ❗ `BatchSpanProcessor` is the default Processor
+
+https://github.com/open-telemetry/opentelemetry-js/blob/main/packages/opentelemetry-core/src/utils/environment.ts
 
 Add the following partially to `docker-compose.yml` file
 
 ```yml
-
+    environment:
+      # [...]
+      - OTEL_BSP_EXPORT_TIMEOUT: 30000 
+      # [...]
 ```
 
 ---

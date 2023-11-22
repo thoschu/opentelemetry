@@ -1,8 +1,8 @@
 import { NodeSDK } from '@opentelemetry/sdk-node';
 import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
-import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-node'
 import { BufferConfig } from '@opentelemetry/sdk-trace-base/build/src/types';
+import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-node'
 
 const start: (serviceName: string) => void = (serviceName: string): void => {
     const exporter: OTLPTraceExporter = new OTLPTraceExporter({
