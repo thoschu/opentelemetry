@@ -21,6 +21,7 @@
 |   10     | sampling-traces                         | Configure custom sampler                     |
 |   11     | context-propagation-and-baggage         | Using context propagation to set baggage     |
 |   12     | configuration-via-environment-variables | Configuration Otel via environment variables |
+|   13     | performance-tuning                      | Span processor performance tuning            |
 
 ---
 
