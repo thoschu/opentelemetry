@@ -70,7 +70,7 @@ Add the following partially to `docker-compose.yml` file
 ```yml
     environment:
       # [...]
-      - OTEL_BSP_EXPORT_TIMEOUT: 30000 
+      - OTEL_BSP_EXPORT_TIMEOUT=30000 
       # [...]
 ```
 
