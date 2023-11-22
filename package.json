@@ -1,7 +1,6 @@
 {
   "name": "opentelemetry",
-  "version": "0.0.2",
-  "version.name": "traces",
+  "version": "0.0.12",
   "source": "./src/private/index.html",
   "browserslist": ["> 0.5%", "last 2 versions", "not dead"],
   "author": "Tom S. - HH | thoschulte@gmail.com",
