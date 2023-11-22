@@ -13,30 +13,33 @@ https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/openteleme
 Add the following partially to `tracer.ts` file
 
 ```typescript
-import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-node'
-import { BufferConfig } from '@opentelemetry/sdk-trace-base/build/src/types';
-
-const bufferConfig: BufferConfig = {
-    // The maximum batch size of every export. It must be smaller or equal to maxQueueSize. The default value is 512.
-    maxExportBatchSize: 1024,
+spanProcessor: new BatchSpanProcessor(
+    new OTLPTraceExporter({
+        url: 'http://jaeger:4318/v1/traces',
+    }), 
+    {
+        // The maximum batch size of every export. It must be smaller or equal to maxQueueSize. The default value is 512.
+        maxExportBatchSize: 1024,
     
-    // The delay interval in milliseconds between two consecutive exports. The default value is 5000ms.
-    scheduledDelayMillis: 1000,
+        // The delay interval in milliseconds between two consecutive exports. The default value is 5000ms.
+        scheduledDelayMillis: 1000,
     
-    // How long the export can run before it is cancelled. The default value is 30000ms
-    exportTimeoutMillis: 10000,
+        // How long the export can run before it is cancelled. The default value is 30000ms
+        exportTimeoutMillis: 10000,
     
-    // The maximum queue size. After the size is reached spans are dropped. The default value is 2048.
-    maxQueueSize: 1024
-};
-
-spanProcessor: new BatchSpanProcessor(exporter, bufferConfig)
+        // The maximum queue size. After the size is reached spans are dropped. The default value is 2048.
+        maxQueueSize: 1024
+    }
+)
 ```
 
 like this
 
 ```typescript
 // [...]
+import { BatchSpanProcessor } from '@opentelemetry/sdk-trace-node'
+import { BufferConfig } from '@opentelemetry/sdk-trace-base/build/src/types';
+
 const exporter: OTLPTraceExporter = new OTLPTraceExporter({
     url: 'http://jaeger:4318/v1/traces',
 });
