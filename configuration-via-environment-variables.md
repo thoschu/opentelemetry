@@ -3,7 +3,7 @@
 https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/opentelemetry-sdk-node
 
 ### docker-compose.yml file
-Add the following to `docker-compose.yml` file
+Add the following partially to `docker-compose.yml` file
 
 ```yml
 # [...]
