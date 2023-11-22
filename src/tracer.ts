@@ -10,8 +10,7 @@ const start: (serviceName: string) => void = (serviceName: string): void => {
     const sdk: NodeSDK = new NodeSDK({
         traceExporter,
         serviceName: serviceName,
-        instrumentations: [getNodeAutoInstrumentations()],
-        spanProcessor: null
+        instrumentations: [getNodeAutoInstrumentations()]
     });
 
     sdk.start();
