@@ -3,13 +3,15 @@
 A span processor sends to data to the exporter.
 The processor in OpenTelemetry is responsible for transforming and processing this data. This can include filtering data, adding tags, or enriching data with additional information. By using processors, developers can customize and format the telemetry data to better suit their specific needs.
 
-https://github.com/open-telemetry/opentelemetry-js/blob/main/packages/opentelemetry-sdk-trace-base/src/export/BatchSpanProcessorBase.ts
+https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/opentelemetry-sdk-trace-base/src/export
 
 ### Option #1 - via env code
 Add the following partially to `tracer.ts` file
 
 ```typescript
-spanProcessor: null
+import { SimpleSpanProcessor } from '@opentelemetry/sdk-trace-node';
+
+spanProcessor: new SimpleSpanProcessor(traceExporter)
 ```
 
 like this
@@ -20,7 +22,7 @@ const sdk: NodeSDK = new NodeSDK({
     traceExporter,
     serviceName: serviceName,
     instrumentations: [getNodeAutoInstrumentations()],
-    spanProcessor: null
+    spanProcessor: new SimpleSpanProcessor(traceExporter) ?? new BatchSpanProcessor(traceExporter)
 });
 ```
 
