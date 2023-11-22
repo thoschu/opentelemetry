@@ -20,7 +20,7 @@ git checkout main
 ```
 
 ```bash
-git checkout traces
+git checkout configuration-via-environment-variables
 ```
 
 3. **Running it with docker:** 
