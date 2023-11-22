@@ -7,8 +7,8 @@
 
 ---
 
-| Tag name | Branch name                     | description                              |
-| -------- | ------------------------------- | ---------------------------------------- |
+| Tag name | Branch name                     | Description                              |
+| -------- | ------------------------------- |------------------------------------------|
 |   1      | init                            | Basic´s OpenTelemetry installation       |
 |   2      | traces                          | Distributed traces                       |
 |   3      | metrics                         | Adding Metrics                           |
