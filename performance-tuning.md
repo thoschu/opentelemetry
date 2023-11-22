@@ -54,13 +54,12 @@ const bufferConfig: BufferConfig = {
 };
 
 const sdk: NodeSDK = new NodeSDK({
-    traceExporter: exporter,
     // [...]
     spanProcessor: new BatchSpanProcessor(exporter, bufferConfig)
 });
 ```
 
-### Option #1 - via env variable
+### Option #2 - via env variable
 
 ❗ `BatchSpanProcessor` is the default Processor
 
