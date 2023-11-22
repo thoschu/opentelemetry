@@ -1,22 +1,21 @@
-# Configuration via environment variables
+# Span processor performance tuning
 
-https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/opentelemetry-sdk-node
+https://github.com/open-telemetry/opentelemetry-js/blob/main/packages/opentelemetry-sdk-trace-base/src/export/BatchSpanProcessorBase.ts
+### xxx file
+Add the following partially to `tracer.ts` file
 
-### docker-compose.yml file
-Add the following partially to `docker-compose.yml` file
+```typescript
+spanProcessor: null
+```
 
-```yml
-# [...]
-todo:
-  # [...]
-  environment:
-    - OTEL_SDK_DISABLED=false # ❗❗❗
-    - OTEL_LOG_LEVEL=ERROR
-# [...]
-  auth:
-    # [...]
-    environment:
-      - OTEL_SDK_DISABLED=true # ❗❗❗
-      - OTEL_LOG_LEVEL=ERROR
-# [...]
+like this
+
+```typescript
+// [...]
+const sdk: NodeSDK = new NodeSDK({
+    traceExporter,
+    serviceName: serviceName,
+    instrumentations: [getNodeAutoInstrumentations()],
+    spanProcessor: null
+});
 ```
