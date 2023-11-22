@@ -20,7 +20,7 @@ git checkout main
 ```
 
 ```bash
-git checkout configuration-via-environment-variables
+git checkout performance-tuning
 ```
 
 3. **Running it with docker:** 
