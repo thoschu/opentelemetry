@@ -26,9 +26,7 @@ git checkout init
 3. **Running it with docker:** 
 
 ```bash
-npm run build 
-
-docker compose up
+npm run build | docker compose up
 ```
 
 or
