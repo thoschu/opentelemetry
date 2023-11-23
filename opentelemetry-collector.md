@@ -78,6 +78,9 @@ yarn add exporter-metrics-otlp-proto
 Then replace `exporter` with the following code
 
 ```typescript
+import { MeterProvider, PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
+import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-proto';
+
 const metricReader: PeriodicExportingMetricReader = new PeriodicExportingMetricReader({
     exporter: new OTLPMetricExporter({
         url: 'http://collector:4318/v1/metrics'
@@ -88,12 +91,6 @@ meterProvider.addMetricReader(metricReader);
 
 const meter: Meter = meterProvider.getMeter(`${serviceName}-service-meter`);
 ```
-
-Make sure to import
-
-> ```typescript 
-> import { MeterProvider, PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics'; 
-> ```
 
 ---
 
