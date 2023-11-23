@@ -21,14 +21,14 @@ const start: (serviceName: string) => Meter = (serviceName: string): Meter => {
     // const exporter: PrometheusExporter = new PrometheusExporter(options, (): void => {
     //     console.log(`Prometheus scrape endpoint: http://localhost:${port}${endpoint}`);
     // });
+    const meterProvider: MeterProvider = new MeterProvider({
+        resource: new Resource({ [SemanticResourceAttributes.SERVICE_NAME]: serviceName })
+    });
     const metricReader: PeriodicExportingMetricReader = new PeriodicExportingMetricReader({
         exporter: new OTLPMetricExporter({
             url: 'http://collector:4318/v1/metrics'
         }),
         exportIntervalMillis: 1000
-    })
-    const meterProvider: MeterProvider = new MeterProvider({
-        resource: new Resource({ [SemanticResourceAttributes.SERVICE_NAME]: serviceName })
     });
 
     meterProvider.addMetricReader(metricReader);
