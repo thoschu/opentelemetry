@@ -20,15 +20,13 @@ git checkout main
 ```
 
 ```bash
-git checkout metrics
+git checkout collector
 ```
 
 3. **Running it with docker:** 
 
 ```bash
-npm run build 
-
-docker compose up
+npm run build | docker compose up
 ```
 
 or
