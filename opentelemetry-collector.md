@@ -5,7 +5,7 @@ https://github.com/open-telemetry/opentelemetry-collector-contrib
 https://opentelemetry.io/docs/instrumentation/js/exporters/
 
 ### Configure the collector
-Add the following content to `collector/collector.yml`
+Add the following content to `collector/config.yml`
 ```yml
 receivers:
   otlp:
@@ -50,8 +50,8 @@ Add the following service to `docker-compose.yml`
   collector:
     image: otel/opentelemetry-collector-contrib
     volumes: 
-      - ./collector/collector.yml:/etc/collector.yml
-    command: ["--config=/etc/collector.yml"]
+      - ./collector/config.yml:/etc/config.yml
+    command: ["--config=/etc/config.yml"]
     ports:
       - "8889:8889"
       - "4317:4317"
