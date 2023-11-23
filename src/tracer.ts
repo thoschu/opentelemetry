@@ -23,9 +23,9 @@ const start: (serviceName: string) => Meter = (serviceName: string): Meter => {
     // });
     const metricReader: PeriodicExportingMetricReader = new PeriodicExportingMetricReader({
         exporter: new OTLPMetricExporter({
-            url:'http://collector:4318/v1/metrics'
+            url: 'http://collector:4318/v1/metrics'
         }),
-        exportIntervalMillis: 10000
+        exportIntervalMillis: 1000
     })
     const meterProvider: MeterProvider = new MeterProvider({
         resource: new Resource({ [SemanticResourceAttributes.SERVICE_NAME]: serviceName })

@@ -46,8 +46,8 @@ Add the following service to `docker-compose.yml`
   collector:
     image: otel/opentelemetry-collector-contrib
     volumes: 
-      - ./collector/collector.yml:/etc/otel-collector-config.yaml
-    command: ["--config=/etc/otel-collector-config.yaml"]
+      - ./collector/collector.yml:/etc/collector.yml
+    command: ["--config=/etc/collector.yml"]
     ports:
       - "8889:8889"
       - "4317:4317"
