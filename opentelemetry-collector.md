@@ -81,8 +81,7 @@ Then replace `exporter` with the following code
 const metricReader: PeriodicExportingMetricReader = new PeriodicExportingMetricReader({
     exporter: new OTLPMetricExporter({
         url: 'http://collector:4318/v1/metrics'
-    }),
-    exportIntervalMillis: 1000
+    })
 });
 
 meterProvider.addMetricReader(metricReader);
