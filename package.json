@@ -1,6 +1,7 @@
 {
   "name": "opentelemetry",
-  "version": "0.0.3",
+  "version": "0.0.14",
+  "version.name": "collector",
   "source": "./src/private/index.html",
   "browserslist": [
     "> 0.5%",

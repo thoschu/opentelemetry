@@ -49,7 +49,11 @@ npm start
 
 > [Prometheus](http://localhost:9090/)
 > 
-> > ```histogram_quantile(0.95, sum(rate(http_calls_bucket[1m])) by (le, route)) ```
+> > ``` histogram_quantile(0.95, sum(rate(http_calls_bucket[1m])) by (le, route)) ```
+>
+> > ``` otel_http_calls_bucket ```
+>
+> > ``` otel_http_calls_sum ```
 >
 > > https://prometheus.io/
 
