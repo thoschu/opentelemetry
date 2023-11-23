@@ -1,5 +1,9 @@
 # Running and using the OpenTelemetry collector
 
+https://github.com/open-telemetry/opentelemetry-collector-contrib
+
+https://opentelemetry.io/docs/instrumentation/js/exporters/
+
 ### Configure the collector
 Add the following content to `collector/collector.yml`
 ```yml
@@ -89,3 +93,7 @@ Make sure to import:
 > ```typescript 
 > import { MeterProvider, PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics'; 
 > ```
+
+---
+
+![qr-code](./assets/demo-arch.png)

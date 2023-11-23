@@ -18,6 +18,11 @@ exporters:
     endpoint: jaeger:4317
     tls:
       insecure: true
+  zipkin:
+    endpoint: "http://zipkin:9411/api/v2/spans"
+    format: proto
+    tls:
+      insecure: true
 extensions:
   health_check:
   pprof:
@@ -28,7 +33,7 @@ service:
     traces:
       receivers: [otlp]
       processors: []
-      exporters: [otlp/jaeger]
+      exporters: [otlp/jaeger, zipkin]
     metrics:
       receivers: [otlp]
       processors: []

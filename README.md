@@ -42,6 +42,9 @@ npm start
 > [Jaeger](http://localhost:16686/)
 > > https://www.jaegertracing.io/
 
+> [Zipkin](http://localhost:9411/)
+> > https://zipkin.io/
+
 > [Redis](http://localhost:8088/)
 > > https://redis.com/
 > 
