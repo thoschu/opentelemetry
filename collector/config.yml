@@ -33,9 +33,9 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: []
+      processors: [batch]
       exporters: [debug, otlp/jaeger, zipkin]
     metrics:
       receivers: [otlp]
-      processors: []
+      processors: [batch]
       exporters: [debug, prometheus]

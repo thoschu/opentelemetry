@@ -24,7 +24,6 @@ receivers:
       grpc:
         endpoint: 0.0.0.0:4317
 processors:
-  batch:
 exporters:
   debug:
   prometheus:
@@ -104,9 +103,36 @@ const meter: Meter = meterProvider.getMeter(`${serviceName}-service-meter`);
 
 ## 🄱 Processors
 
+https://github.com/open-telemetry/opentelemetry-collector/blob/main/processor
+
 https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor
 
-todo
+### Configure the collector
+Add the following content to `collector/config.yml`
+
+```yml
+# [...]
+```
+
+```yml
+processors:
+  batch:
+service:
+  extensions: [health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug, otlp/jaeger, zipkin]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug, prometheus]
+```
+
+```yml
+# [...]
+```
 
 ---
 
