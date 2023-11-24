@@ -4,6 +4,14 @@ https://github.com/open-telemetry/opentelemetry-collector-contrib
 
 https://opentelemetry.io/docs/instrumentation/js/exporters/
 
+---
+
+## 🄰 Receivers and Exporters
+
+https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/receiver
+
+https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter
+
 ### Configure the collector
 Add the following content to `collector/config.yml`
 
@@ -91,6 +99,14 @@ meterProvider.addMetricReader(metricReader);
 
 const meter: Meter = meterProvider.getMeter(`${serviceName}-service-meter`);
 ```
+
+--- 
+
+## 🄱 Processors
+
+https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor
+
+todo
 
 ---
 
