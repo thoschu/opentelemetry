@@ -7,6 +7,19 @@ receivers:
         endpoint: 0.0.0.0:4317
 processors:
   batch:
+  batch/2:
+    send_batch_size: 10000
+    timeout: 10s
+  resource:
+    attributes:
+      - key: cloud.availability_zone
+        value: "zone-1"
+        action: upsert # insert if not exists, update otherwise
+      - key: k8s.cluster.name
+        from_attribute: k8s-cluster
+        action: insert # insert if not exists, do nothing otherwise
+      - key: redundant-attribute
+        action: delete # delete if exists
 exporters:
   debug:
   prometheus:
@@ -33,9 +46,9 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [batch]
+      processors: [batch, resource]
       exporters: [debug, otlp/jaeger, zipkin]
     metrics:
       receivers: [otlp]
-      processors: [batch]
+      processors: [batch/2]
       exporters: [debug, prometheus]
