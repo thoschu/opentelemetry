@@ -7,8 +7,57 @@ import { Resource } from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 import { Meter } from '@opentelemetry/api';
 import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-proto';
+import { OTLPExporterNodeConfigBase } from '@opentelemetry/otlp-exporter-base';
+import { BatchLogRecordProcessor, SimpleLogRecordProcessor, LoggerProvider } from '@opentelemetry/sdk-logs';
+import { Logger, logs } from '@opentelemetry/api-logs';
+//import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-proto';
+import { SeverityNumber } from '@opentelemetry/api-logs';
+import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-http';
 
-const start: (serviceName: string) => Meter = (serviceName: string): Meter => {
+const start: (serviceName: string) => { meter: Meter; logger: Logger } = (serviceName: string): { meter: Meter; logger: Logger } => {
+// To start a logger, you first need to initialize the Logger provider.
+    const loggerProvider = new LoggerProvider();
+    const collectorOptions: OTLPExporterNodeConfigBase = {
+        url: 'http://collector:4318/v1/logs',
+        concurrencyLimit: 1
+    };
+    const logExporter: OTLPLogExporter = new OTLPLogExporter(collectorOptions);
+// Add a processor to export log record
+    loggerProvider.addLogRecordProcessor(
+        new SimpleLogRecordProcessor(logExporter)
+    );
+
+
+// You can also use global singleton
+    logs.setGlobalLoggerProvider(loggerProvider);
+    const logger = logs.getLogger('default');
+
+// emit a log record
+    logger.emit({
+        severityNumber: SeverityNumber.INFO,
+        severityText: 'INFO',
+        body: 'this is a log record body',
+        attributes: { 'log.type': 'LogRecord' },
+    });
+
+
+    // const collectorOptions: OTLPExporterNodeConfigBase = {
+    //     url: 'http://collector:4318/v1/logs',
+    //     concurrencyLimit: 1
+    // };
+    // const logExporter: OTLPLogExporter = new OTLPLogExporter(collectorOptions);
+    // const loggerProvider: LoggerProvider = new LoggerProvider();
+    // loggerProvider.addLogRecordProcessor(new BatchLogRecordProcessor(logExporter));
+    //
+    // const logger: Logger = loggerProvider.getLogger(serviceName, '1.0.0', { includeTraceContext: true });
+    //
+    // logger.emit({
+    //     severityNumber: SeverityNumber.INFO,
+    //     severityText: 'info',
+    //     body: 'this is a log body',
+    //     attributes: { 'log.type': 'custom' },
+    // });
+
     // TRAICING
     const traceExporter: OTLPTraceExporter = new OTLPTraceExporter({
         // url: 'http://jaeger:4318/v1/traces',
@@ -43,7 +92,7 @@ const start: (serviceName: string) => Meter = (serviceName: string): Meter => {
 
     sdk.start();
 
-    return meter;
+    return { meter, logger };
 }
 
 export default start;

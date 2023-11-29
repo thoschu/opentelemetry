@@ -1,5 +1,5 @@
 import start from './tracer';
-const meter: Meter = start('todo-service');
+const etc: { meter: Meter; logger: Logger }  = start('todo-service');
 
 import { IncomingHttpHeaders } from 'http';
 import express, {Response, Request, Express, NextFunction} from 'express';
@@ -8,8 +8,9 @@ import axios, {AxiosResponse} from 'axios';
 import { Redis } from 'ioredis';
 import { prop } from 'ramda';
 import { Attributes, Histogram, Meter } from '@opentelemetry/api';
+import {Logger, SeverityNumber} from "@opentelemetry/api-logs";
 
-const calls: Histogram<Attributes> = meter.createHistogram('http-calls');
+const calls: Histogram<Attributes> = etc.meter.createHistogram('http-calls');
 const sleep = (time: number) => new Promise((resolve: (args: void) => void): NodeJS.Timeout => setTimeout(resolve, time));
 const redis: Redis = new Redis({host: 'redis'});
 const app: Express = express();
@@ -87,4 +88,14 @@ app.listen(port, (): void => {
         redis.set('todo:3', JSON.stringify({name: 'Configure sampling rule'})),
         redis.set('todo:4', JSON.stringify({name: 'You are OpenTelemetry master!!!!'}))]
     );
+
+
+    setInterval(function () {
+        etc.logger.emit({
+            severityNumber: SeverityNumber.INFO,
+            severityText: 'INFO',
+            body: 'xxxxxxxxxxxxxxxxx',
+            attributes: { 'log.type': 'LogRecord' },
+        });
+    }, 3000);
 })();
