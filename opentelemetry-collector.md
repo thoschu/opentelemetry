@@ -136,4 +136,58 @@ service:
 
 ---
 
+### Tail Sampling [Traces] Processor
+
+https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/tailsamplingprocessor
+
+https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter/loadbalancingexporter
+
+
+```yml
+# [...]
+```
+
+```yml
+processors:
+  batch:
+  tail_sampling:
+    decision_wait: 10s
+    num_traces: 100
+    expected_new_traces_per_sec: 10
+    policies:
+      [
+        {
+          name: high-latency-traces,
+          type: latency,
+          latency: {threshold_ms: 500}
+        },
+        {
+          name: http_error_only,
+          type: latency,
+          numeric_attribute: {key: http.status_code, values: [400, 401, 403, 404, 500, 501, 502, 503, 504]}
+        }
+      ]
+service:
+  extensions: [health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug, otlp/jaeger, zipkin]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug, prometheus]
+```
+
+```yml
+# [...]
+```
+
+![qr-code](./assets/tail-sampling-1.png)
+
+![qr-code](./assets/tail-sampling-2.png)
+
+---
+
 ![qr-code](./assets/demo-arch.png)
