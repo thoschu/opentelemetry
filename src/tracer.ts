@@ -10,9 +10,9 @@ import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-proto';
 import { OTLPExporterNodeConfigBase } from '@opentelemetry/otlp-exporter-base';
 import { BatchLogRecordProcessor, SimpleLogRecordProcessor, LoggerProvider } from '@opentelemetry/sdk-logs';
 import { Logger, logs } from '@opentelemetry/api-logs';
-//import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-proto';
+import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-proto';
 import { SeverityNumber } from '@opentelemetry/api-logs';
-import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-http';
+//import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-http';
 
 const start: (serviceName: string) => { meter: Meter; logger: Logger } = (serviceName: string): { meter: Meter; logger: Logger } => {
 // To start a logger, you first need to initialize the Logger provider.
