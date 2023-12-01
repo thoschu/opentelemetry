@@ -38,7 +38,9 @@ const start: (serviceName: string) => Meter = (serviceName: string): Meter => {
     const sdk: NodeSDK = new NodeSDK({
         traceExporter,
         serviceName: serviceName,
-        instrumentations: [getNodeAutoInstrumentations()]
+        instrumentations: [
+            getNodeAutoInstrumentations()
+        ]
     });
 
     sdk.start();
