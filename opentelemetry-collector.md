@@ -190,10 +190,4 @@ service:
 
 ---
 
-# Debugging the collector
-
-
-
----
-
 ![qr-code](./assets/demo-arch.png)
