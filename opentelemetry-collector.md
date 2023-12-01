@@ -166,7 +166,7 @@ processors:
         {
           name: http_error_only,
           type: latency,
-          numeric_attribute: { key: http.status_code, values: [400, 401, 403, 404, 500, 501, 502, 503, 504] }
+          numeric_attribute: { key: http.status_code, min_value: 400, max_value: 599 }
         }
       ]
 service:

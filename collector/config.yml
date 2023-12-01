@@ -7,32 +7,27 @@ receivers:
         endpoint: 0.0.0.0:4317
 processors:
   # https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/servicegraphprocessor
-  batch:
-  batch/2:
-    send_batch_size: 10000
-    timeout: 10s
   tail_sampling:
-    decision_wait: 10s
+    decision_wait: 5s
     num_traces: 100
     expected_new_traces_per_sec: 10
     policies:
       [
         {
-          name: high-latency-traces,
+          name: high-latency,
           type: latency,
           latency: { threshold_ms: 500 }
         },
         {
           name: http_error_only,
-          type: latency,
-          numeric_attribute: {
-            key: http.status_code,
-            values: [
-              400, 401, 403, 404, 500, 501, 502, 503, 504
-            ]
-          }
+          type: numeric_attribute,
+          numeric_attribute: { key: http.status_code, min_value: 400, max_value: 599 }
         }
       ]
+  batch:
+  batch/2:
+    send_batch_size: 10000
+    timeout: 10s
   resource:
     attributes:
       - key: cloud.availability_zone
@@ -69,7 +64,7 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [tail_sampling, batch, resource]
+      processors: [batch, resource]
       exporters: [debug, otlp/jaeger, zipkin]
     metrics:
       receivers: [otlp]
