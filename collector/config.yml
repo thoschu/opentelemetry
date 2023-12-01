@@ -39,6 +39,8 @@ processors:
       - key: redundant-attribute
         action: delete # delete if exists
 exporters:
+  logging:
+    loglevel: debug
   debug:
   prometheus:
     endpoint: "0.0.0.0:8889"
