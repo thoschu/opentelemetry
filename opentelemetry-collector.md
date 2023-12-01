@@ -142,6 +142,8 @@ https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/proc
 
 https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter/loadbalancingexporter
 
+https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/servicegraphprocessor
+
 
 ```yml
 # [...]
@@ -164,7 +166,7 @@ processors:
         {
           name: http_error_only,
           type: latency,
-          numeric_attribute: {key: http.status_code, values: [400, 401, 403, 404, 500, 501, 502, 503, 504]}
+          numeric_attribute: { key: http.status_code, values: [400, 401, 403, 404, 500, 501, 502, 503, 504] }
         }
       ]
 service:
