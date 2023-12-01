@@ -1,6 +1,7 @@
 {
   "name": "opentelemetry",
   "version": "0.0.1",
+  "version.name": "init",
   "source": "src/private/index.html",
   "author": "Tom S. - HH | thoschulte@gmail.com",
   "license": "MIT",
