@@ -138,12 +138,7 @@ service:
 
 ### Tail Sampling [Traces] Processor
 
-https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/tailsamplingprocessor
-
-https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter/loadbalancingexporter
-
-https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/servicegraphprocessor
-
+* https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/tailsamplingprocessor
 
 ```yml
 # [...]
@@ -159,14 +154,14 @@ processors:
     policies:
       [
         {
-          name: high-latency-traces,
+          name: high-latency,
           type: latency,
-          latency: {threshold_ms: 500}
+          latency: { threshold_ms: 500 }
         },
         {
           name: http_error_only,
-          type: latency,
-          numeric_attribute: { key: http.status_code, min_value: 400, max_value: 599 }
+          type: numeric_attribute,
+          numeric_attribute: { key: http.status_code, min_value: 500, max_value: 599 }
         }
       ]
 service:
@@ -186,9 +181,18 @@ service:
 # [...]
 ```
 
+* https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter/loadbalancingexporter
+
+
 ![qr-code](./assets/tail-sampling-1.png)
 
 ![qr-code](./assets/tail-sampling-2.png)
+
+---
+
+# Debugging the collector
+
+
 
 ---
 

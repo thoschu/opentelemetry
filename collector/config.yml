@@ -8,7 +8,7 @@ receivers:
 processors:
   # https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/servicegraphprocessor
   tail_sampling:
-    decision_wait: 5s
+    decision_wait: 10s
     num_traces: 100
     expected_new_traces_per_sec: 10
     policies:
@@ -21,7 +21,7 @@ processors:
         {
           name: http_error_only,
           type: numeric_attribute,
-          numeric_attribute: { key: http.status_code, min_value: 400, max_value: 599 }
+          numeric_attribute: { key: http.status_code, min_value: 500, max_value: 599 }
         }
       ]
   batch:
