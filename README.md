@@ -45,7 +45,7 @@ git checkout [branch]
 
 ---
 
-❗❗❗ **In addition to the README.md, each branch has its own .md file for further description.** ❗❗❗
+❗ **In addition to the README.md, each branch has its own .md file for further description.** 
 
 ---
 
