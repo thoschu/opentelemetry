@@ -83,9 +83,8 @@ fetch('http://collector:4318/v1/logs', {
     headers: {
         'Content-type': 'application/json; charset=UTF-8',
     }
-}).then((response) => {
-    return response.json();
-}).then((data) => {
+}).then((response) => response.json())
+  .then((data) => {
     console.log(data);
 }).catch(console.error);
 ```
