@@ -171,7 +171,7 @@
         </footer>
         <script type="module">
             const JSONFormatter = window.JSONFormatter;
-            const { fromEvent } = window.rxjs;
+            const { ajax, fromEvent } = window.rxjs;
             const dialog = document.getElementById("login-dialog");
             const confirmBtn = document.getElementById("confirmBtn");
             const outputBox = document.querySelector("output");
@@ -234,6 +234,18 @@
                                 container.appendChild(formatter.render());
 
                                 dialog.close(loginNameValue);
+
+                                const xhr = new XMLHttpRequest();
+                                xhr.open('POST', 'http://localhost:4318/v1/logs', true);
+                                xhr.setRequestHeader('Content-Type', 'application/json');
+
+                                const logData = {
+                                    message: "Dies ist eine Log-Nachricht",
+                                    timestamp: new Date().toISOString(),
+                                    todos
+                                };
+
+                                xhr.send(JSON.stringify(logData));
 
                                 return todos;
                             })
