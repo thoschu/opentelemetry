@@ -6,6 +6,7 @@ receivers:
       grpc:
         endpoint: 0.0.0.0:4317
 processors:
+  # https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/main/connector/servicegraphconnector/README.md
   # https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/processor/servicegraphprocessor
   tail_sampling:
     decision_wait: 10s
