@@ -5,6 +5,7 @@ All of OpenTelemetry core concepts have been recorded in the attached feature br
 [README.md](README.md)
 
 ---
+---
 
 Unfortunately, there are no sufficiently good dependencies or libarays available for recording browser metrics (Web Vitals),
 so you can alternatively record them yourself with corresponding browser API´s and then send them to an observability backend using the fecht api.
@@ -19,7 +20,7 @@ Various JavaScript APIs are available to read metrics in the browser.
 These metrics can provide information about performance, usage, network communications,
 and other aspects of the application. Here are some common APIs and methods with examples:
 
-1. **Performance API**
+①. **Performance API**
 
 ```javascript
 console.log(window.performance.timing);
@@ -28,7 +29,7 @@ console.log(performance.memory);
 console.log(performance.getEntriesByType('navigation'));
 ```
 
-2. **Navigator API**
+②. **Navigator API**
 
 ```javascript
 console.log(window.navigator.userAgent);
@@ -36,14 +37,14 @@ console.log(navigator.platform);
 console.log(navigator.language);
 ```
 
-3. **Screen API**
+③. **Screen API**
 
 ```javascript
 console.log(window.screen.width);
 console.log(screen.height);
 ```
 
-4. **Network Information API**
+④. **Network Information API**
 
 ```javascript
 if (window.navigator.connection) {
@@ -52,7 +53,7 @@ if (window.navigator.connection) {
 }
 ```
 
-5. **List of API´s**
+---
 
 https://www.w3schools.com/js/js_window.asp
 
