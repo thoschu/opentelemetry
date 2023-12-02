@@ -53,6 +53,43 @@ if (window.navigator.connection) {
 }
 ```
 
+⑤. **Geolocation API**
+
+```javascript
+if (window.navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition((position) => {
+    console.log(position.coords.latitude);
+    console.log(position.coords.longitude);
+  });
+}
+```
+
+⑥. **Example with Fetch API**
+
+```javascript
+var userAgent = window.navigator.userAgent;
+var navigation = performance.getEntriesByType('navigation');
+
+fetch('http://collector:4318/v1/logs', {
+    method: 'POST',
+    body: JSON.stringify({
+        title: 'metrics',
+        body: {
+            userAgent,
+            navigation,
+            // [...]
+        }
+    }),
+    headers: {
+        'Content-type': 'application/json; charset=UTF-8',
+    }
+}).then((response) => {
+    return response.json();
+}).then((data) => {
+    console.log(data);
+}).catch(console.error);
+```
+
 ---
 
 https://www.w3schools.com/js/js_window.asp
