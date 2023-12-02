@@ -37,10 +37,10 @@ git clone https://github.com/thoschu/opentelemetry.git
 git checkout main
 ```
 
-3. **Running it with docker:** 
+or
 
 ```bash
-docker-compose up
+git checkout [branch]
 ```
 
 ---
