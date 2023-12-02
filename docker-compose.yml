@@ -90,7 +90,6 @@ services:
     image: jaegertracing/all-in-one
     ports:
       - "16686:16686"
-      #- "14250:14250"
     environment:
       COLLECTOR_OTLP_ENABLED: true
   zipkin:
@@ -113,8 +112,6 @@ services:
       - ./prometheus/:/etc/prometheus/
     ports:
       - "9090:9090"
-
-
   loki:
     image: grafana/loki:2.9.0
     ports:
@@ -122,7 +119,6 @@ services:
     command: -config.file=/etc/loki/local-config.yaml
     networks:
       - backend
-
   promtail:
     image: grafana/promtail:2.9.0
     volumes:
@@ -130,7 +126,6 @@ services:
     command: -config.file=/etc/promtail/config.yml
     networks:
       - backend
-
   grafana:
     environment:
       - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
@@ -160,8 +155,6 @@ services:
       - "3000:3000"
     networks:
       - backend
-
-
   collector:
     networks:
       - backend
