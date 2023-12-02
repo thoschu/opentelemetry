@@ -43,6 +43,12 @@ or
 git checkout [branch]
 ```
 
+and
+
+```bash
+npm run ui
+```
+
 ---
 
 ❗ **In addition to the README.md, each branch has its own .md file for further description.** 

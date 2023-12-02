@@ -5,7 +5,21 @@ All of OpenTelemetry core concepts have been recorded in the attached feature br
 [README.md](README.md)
 
 ---
+
 ---
+
+## Frontend/Browser Traces
+
+- api: An API package used to add instrumentation for everything you care about in your application.
+- sdk-trace-web: An SDK package, which creates traces that conform to the OpenTelemetry specification.
+- exporter-trace-otlp-http: An exporter package, which is responsible for sending trace data out via HTTP requests.
+- context-zone: A helper package that processes spans from across your application to ensure they have all the relevant context for rich telemetry.
+- instrumentation: An instrumentation package that initializes automatic instrumentation.
+- auto-instrumentations-web: A meta package that includes various web automatic instrumentation including request and document load instrumentation.
+
+---
+
+## Frontend/Browser Metrics
 
 Unfortunately, there are no sufficiently good dependencies or libarays available for recording browser metrics (Web Vitals),
 so you can alternatively record them yourself with corresponding browser API´s and then send them to an observability backend using the fecht api.
