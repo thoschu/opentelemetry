@@ -20,7 +20,7 @@ git checkout main
 ```
 
 ```bash
-git checkout collector
+git checkout collector-logging
 ```
 
 3. **Running it with docker:** 

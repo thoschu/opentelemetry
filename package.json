@@ -1,6 +1,6 @@
 {
   "name": "opentelemetry",
-  "version": "0.0.14",
+  "version": "0.0.13",
   "version.name": "collector-logging",
   "source": "./src/private/index.html",
   "browserslist": [
