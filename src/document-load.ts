@@ -12,7 +12,6 @@ import { XMLHttpRequestInstrumentation } from '@opentelemetry/instrumentation-xm
 import { LongTaskInstrumentation, ObserverCallbackInformation } from '@opentelemetry/instrumentation-long-task';
 import { Span } from '@opentelemetry/api';
 
-
 const traceExporter: OTLPTraceExporter = new OTLPTraceExporter({
     url: 'http://localhost:4318/v1/traces'
 });
@@ -43,17 +42,19 @@ registerInstrumentations({
                 span.setAttribute('location.pathname', window.location.pathname)
             }
         })
-    ]
+    ],
+    tracerProvider: provider,
+    meterProvider: null
 });
 
 
-const xhr: XMLHttpRequest = new XMLHttpRequest();
-xhr.open('POST', 'http://localhost:4318/v1/logs', true);
-xhr.setRequestHeader('Content-Type', 'application/json');
-
-const logData: { message: string, timestamp: string } = {
-    message: "Dies ist eine Log-Nachricht",
-    timestamp: new Date().toISOString()
-};
-
-xhr.send(JSON.stringify(logData));
+// const xhr: XMLHttpRequest = new XMLHttpRequest();
+// xhr.open('POST', 'http://localhost:4318/v1/logs', true);
+// xhr.setRequestHeader('Content-Type', 'application/json');
+//
+// const logData: { message: string, timestamp: string } = {
+//     message: "Dies ist eine Log-Nachricht",
+//     timestamp: new Date().toISOString()
+// };
+//
+// xhr.send(JSON.stringify(logData));

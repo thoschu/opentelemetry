@@ -2,13 +2,21 @@
 
 All of OpenTelemetry core concepts have been recorded in the attached feature branches.
 
+## Backend
+
 [README.md](README.md)
 
 ---
 
+## Frontend/Browser 
+
+[README.md](README.md)
+
+### Logging
+
 ---
 
-## Frontend/Browser Traces
+### Traces
 
 - api: An API package used to add instrumentation for everything you care about in your application.
 - sdk-trace-web: An SDK package, which creates traces that conform to the OpenTelemetry specification.
@@ -18,12 +26,52 @@ All of OpenTelemetry core concepts have been recorded in the attached feature br
 - auto-instrumentations-web: A meta package that includes various web automatic instrumentation including request and document load instrumentation.
 
 ```typescript
+import { BatchSpanProcessor, WebTracerProvider } from '@opentelemetry/sdk-trace-web';
+import { DocumentLoadInstrumentation } from '@opentelemetry/instrumentation-document-load';
+import { ZoneContextManager } from '@opentelemetry/context-zone';
+import { registerInstrumentations } from '@opentelemetry/instrumentation';
+import { ConsoleSpanExporter, SimpleSpanProcessor } from '@opentelemetry/sdk-trace-base';
+import { Resource } from '@opentelemetry/resources';
+import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
+import { FetchInstrumentation } from '@opentelemetry/instrumentation-fetch';
+import { UserInteractionInstrumentation } from '@opentelemetry/instrumentation-user-interaction';
+import { XMLHttpRequestInstrumentation } from '@opentelemetry/instrumentation-xml-http-request';
+import { LongTaskInstrumentation, ObserverCallbackInformation } from '@opentelemetry/instrumentation-long-task';
+import { Span } from '@opentelemetry/api';
 
+const traceExporter: OTLPTraceExporter = new OTLPTraceExporter({
+    url: 'http://localhost:4318/v1/traces'
+});
+
+const tracerProvider: WebTracerProvider = new WebTracerProvider({
+    resource: new Resource({
+        [SemanticResourceAttributes.SERVICE_NAME]: 'browser'
+    })
+});
+
+tracerProvider.addSpanProcessor(new BatchSpanProcessor(traceExporter));
+tracerProvider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
+
+tracerProvider.register({
+    contextManager: new ZoneContextManager()
+});
+
+// Registering instrumentations
+registerInstrumentations({
+    instrumentations: [
+        new DocumentLoadInstrumentation(),
+        new FetchInstrumentation(),
+        new UserInteractionInstrumentation(),
+        new XMLHttpRequestInstrumentation()
+    ],
+    tracerProvider: provider
+});
 ```
 
 ---
 
-## Frontend/Browser Metrics
+### Metrics
 
 Unfortunately, there are no sufficiently good dependencies or libarays available for recording browser metrics (Web Vitals),
 so you can alternatively record them yourself with corresponding browser API´s and then send them to an observability backend using the fecht api.
@@ -32,8 +80,10 @@ https://www.w3schools.com/js/js_api_intro.asp
 
 https://web.dev/articles/vitals?hl=de
 
-
 ```typescript
+import { MeterProvider, PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
+import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-http';
+
 const metricExporter: OTLPMetricExporter = new OTLPMetricExporter({
     url: 'http://localhost:4318/v1/metrics',
     headers: {},
@@ -59,6 +109,15 @@ calls.record(Date.now() - 2000,{
     status: '200',
     method: 'GET',
     language: navigator.language
+});
+
+registerInstrumentations({
+    instrumentations: [
+        new DocumentLoadInstrumentation(),
+        // [...]
+    ],
+    tracerProvider,
+    meterProvider: meterProvider
 });
 
 ```
