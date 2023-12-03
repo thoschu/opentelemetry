@@ -22,6 +22,7 @@
 | 11       | context-propagation-and-baggage | Using context propagation to set baggage           |
 | 12       | collector                       | Using OpenTelemetry Collector                      |
 | 13       | collector-logging               | Using OpenTelemetry Collector with logging to Loki |
+| 14       | collector-auth                  | Using OpenTelemetry Collector with authentication  |
 
 ---
 
