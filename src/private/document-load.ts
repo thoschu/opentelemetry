@@ -27,7 +27,9 @@ const logExporter: OTLPLogExporter = new OTLPLogExporter({
     url: 'http://localhost:4318/v1/logs', concurrencyLimit: 1
 });
 
-loggerProvider.addLogRecordProcessor(new SimpleLogRecordProcessor(logExporter));
+const logProcessor: SimpleLogRecordProcessor = new SimpleLogRecordProcessor(logExporter);
+
+loggerProvider.addLogRecordProcessor(logProcessor);
 
 logs.setGlobalLoggerProvider(loggerProvider);
 const logger: Logger = logs.getLogger(serviceName);

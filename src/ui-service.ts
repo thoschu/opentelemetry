@@ -2,7 +2,7 @@ import start from './tracer';
 const etc: { meter: Meter; logger: Logger } = start('ui-service');
 
 import express, { Express, NextFunction, Response, Request } from 'express';
-import { Attributes, Histogram, Meter } from '@opentelemetry/api';
+import {Attributes, Histogram, Meter, context, trace, Span, Context} from '@opentelemetry/api';
 import { Logger, SeverityNumber } from '@opentelemetry/api-logs';
 
 const calls: Histogram<Attributes> = etc.meter.createHistogram('http-calls');
@@ -11,6 +11,10 @@ const port: string | number = process.env.PORT || 8080;
 
 app.use((req: Request, res: Response, next: NextFunction): void => {
     const startTime: number = Date.now();
+    const activeContext: Context = context.active();
+    const currentSpan: Span | undefined = trace.getSpan(activeContext);
+
+    res.set('traceparent', currentSpan.spanContext().traceId);
 
     req.on('end',(): void=> {
         const endTime: number = Date.now();
