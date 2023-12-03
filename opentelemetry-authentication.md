@@ -39,7 +39,7 @@ receivers:
       grpc:
         endpoint: 0.0.0.0:4316
         auth:
-          authenticator: basicauth/server
+          authenticator: bearertokenauth
 processors:
   batch:
 exporters:
