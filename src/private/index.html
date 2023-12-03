@@ -170,8 +170,9 @@
             </code>
         </footer>
         <script type="module">
+            import './document-load.ts';
             const JSONFormatter = window.JSONFormatter;
-            const { ajax, fromEvent } = window.rxjs;
+            const { fromEvent } = window.rxjs;
             const dialog = document.getElementById("login-dialog");
             const confirmBtn = document.getElementById("confirmBtn");
             const outputBox = document.querySelector("output");
@@ -262,6 +263,5 @@
                 }
             });
         </script>
-        <script type="module" src="document-load.ts"></script>
     </body>
 </html>

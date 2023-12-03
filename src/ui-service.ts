@@ -3,7 +3,7 @@ const etc: { meter: Meter; logger: Logger } = start('ui-service');
 
 import express, { Express, NextFunction, Response, Request } from 'express';
 import { Attributes, Histogram, Meter } from '@opentelemetry/api';
-import {Logger} from "@opentelemetry/api-logs";
+import { Logger, SeverityNumber } from '@opentelemetry/api-logs';
 
 const calls: Histogram<Attributes> = etc.meter.createHistogram('http-calls');
 const app: Express = express();
@@ -18,7 +18,8 @@ app.use((req: Request, res: Response, next: NextFunction): void => {
         calls.record(endTime-startTime,{
             route: req.route?.path,
             status: res.statusCode,
-            method: req.method
+            method: req.method,
+            userAgent: req.headers['user-agent']
         });
     });
 
@@ -28,5 +29,14 @@ app.use((req: Request, res: Response, next: NextFunction): void => {
 app.use('/', express.static(__dirname + '/public'));
 
 app.listen(port, (): void => {
-    console.log(`Example app listening on port ${port}`);
+    const logText: string = `ui-service is up and running and listening on port ${port}`;
+
+    console.log(logText);
+
+    etc.logger.emit({
+        severityNumber: SeverityNumber.INFO,
+        severityText: 'INFO',
+        body: logText,
+        attributes: { 'log.type': 'LogRecord' },
+    });
 });

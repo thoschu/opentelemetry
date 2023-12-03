@@ -12,32 +12,21 @@ import { BatchLogRecordProcessor, SimpleLogRecordProcessor, LoggerProvider } fro
 import { Logger, logs } from '@opentelemetry/api-logs';
 import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-proto';
 import { SeverityNumber } from '@opentelemetry/api-logs';
-//import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-http';
 
 const start: (serviceName: string) => { meter: Meter; logger: Logger } = (serviceName: string): { meter: Meter; logger: Logger } => {
-    // To start a logger, you first need to initialize the Logger provider.
+    // LOGS
     const loggerProvider: LoggerProvider = new LoggerProvider();
     const exporterConfig: OTLPExporterNodeConfigBase = {
         url: 'http://collector:4318/v1/logs', concurrencyLimit: 1
     };
     const logExporter: OTLPLogExporter = new OTLPLogExporter(exporterConfig);
-    // Add a processor to export log record
+
     loggerProvider.addLogRecordProcessor(
         new SimpleLogRecordProcessor(logExporter)
     );
 
-
-    // You can also use global singleton
     logs.setGlobalLoggerProvider(loggerProvider);
     const logger: Logger = logs.getLogger(serviceName);
-
-    // emit a log record
-    logger.emit({
-        severityNumber: SeverityNumber.INFO,
-        severityText: 'INFO',
-        body: 'this is a log record body',
-        attributes: { 'log.type': 'LogRecord' },
-    });
 
     // const collectorOptions: OTLPExporterNodeConfigBase = {
     //     url: 'http://collector:4318/v1/logs',
@@ -62,13 +51,17 @@ const start: (serviceName: string) => { meter: Meter; logger: Logger } = (servic
         url: 'http://collector:4318/v1/traces'
     });
 
+    // METRICS
     const meterProvider: MeterProvider = new MeterProvider({
         resource: new Resource({ [SemanticResourceAttributes.SERVICE_NAME]: serviceName })
     });
+
+    const metricExporter: OTLPMetricExporter = new OTLPMetricExporter({
+        url: 'http://collector:4318/v1/metrics'
+    });
+
     const metricReader: PeriodicExportingMetricReader = new PeriodicExportingMetricReader({
-        exporter: new OTLPMetricExporter({
-            url: 'http://collector:4318/v1/metrics'
-        }),
+        exporter: metricExporter,
         exportIntervalMillis: 1000
     });
 

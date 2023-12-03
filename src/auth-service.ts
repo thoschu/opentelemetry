@@ -6,7 +6,7 @@ import express, {Express, NextFunction, Request, Response} from 'express';
 import { Redis } from 'ioredis';
 import { isNotNil, prop } from 'ramda';
 import { Attributes, Histogram, Meter } from '@opentelemetry/api';
-import {Logger} from "@opentelemetry/api-logs";
+import { Logger, SeverityNumber } from '@opentelemetry/api-logs';
 
 const calls: Histogram<Attributes> = etc.meter.createHistogram('http-calls');
 const app: Express = express();
@@ -24,7 +24,8 @@ app.use((req: Request, res: Response, next: NextFunction): void => {
         calls.record(endTime-startTime,{
             route: req.route?.path,
             status: res.statusCode,
-            method: req.method
+            method: req.method,
+            userAgent: req.headers['user-agent']
         });
     });
 
@@ -43,7 +44,16 @@ app.get('/auth', async (req: Request, res: Response): Promise<void> => {
 });
 
 app.listen(port,(): void => {
-    console.info(`auth-service is up and running and listening on port ${port}`);
+    const logText: string = `auth-service is up and running and listening on port ${port}`;
+
+    console.log(logText);
+
+    etc.logger.emit({
+        severityNumber: SeverityNumber.INFO,
+        severityText: 'INFO',
+        body: logText,
+        attributes: { 'log.type': 'LogRecord' },
+    });
 });
 
 (async (): Promise<void> => {

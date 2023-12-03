@@ -8,7 +8,7 @@ import axios, {AxiosResponse} from 'axios';
 import { Redis } from 'ioredis';
 import { prop } from 'ramda';
 import { Attributes, Histogram, Meter } from '@opentelemetry/api';
-import {Logger, SeverityNumber} from "@opentelemetry/api-logs";
+import { Logger, SeverityNumber } from '@opentelemetry/api-logs';
 
 const calls: Histogram<Attributes> = etc.meter.createHistogram('http-calls');
 const sleep = (time: number) => new Promise((resolve: (args: void) => void): NodeJS.Timeout => setTimeout(resolve, time));
@@ -25,7 +25,8 @@ app.use((req: Request, res: Response, next: NextFunction): void => {
         calls.record(endTime-startTime,{
             route: req.route?.path,
             status: res.statusCode,
-            method: req.method
+            method: req.method,
+            userAgent: req.headers['user-agent']
         });
     });
 
@@ -78,7 +79,16 @@ app.get('/todos', async (req: Request, res: Response): Promise<void> => {
 })
 
 app.listen(port, (): void => {
-    console.log(`todo-service is up and running and listening on port ${port}`);
+    const logText: string = `todo-service is up and running and listening on port ${port}`;
+
+    console.log(logText);
+
+    etc.logger.emit({
+        severityNumber: SeverityNumber.INFO,
+        severityText: 'INFO',
+        body: logText,
+        attributes: { 'log.type': 'LogRecord' },
+    });
 });
 
 (async (): Promise<void> => {
@@ -88,14 +98,4 @@ app.listen(port, (): void => {
         redis.set('todo:3', JSON.stringify({name: 'Configure sampling rule'})),
         redis.set('todo:4', JSON.stringify({name: 'You are OpenTelemetry master!!!!'}))]
     );
-
-
-    setInterval(function () {
-        etc.logger.emit({
-            severityNumber: SeverityNumber.INFO,
-            severityText: 'INFO',
-            body: 'xxxxxxxxxxxxxxxxx',
-            attributes: { 'log.type': 'LogRecord' },
-        });
-    }, 3000);
 })();

@@ -7,11 +7,36 @@ import { UserInteractionInstrumentation } from '@opentelemetry/instrumentation-u
 import { XMLHttpRequestInstrumentation } from '@opentelemetry/instrumentation-xml-http-request';
 import { Resource } from '@opentelemetry/resources';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
+import { MeterProvider, PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
+import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-http';
+import { Attributes, Counter, Meter } from '@opentelemetry/api';
+import {SemanticResourceAttributes} from "@opentelemetry/semantic-conventions";
 
+// METRICS
+const metricExporter: OTLPMetricExporter = new OTLPMetricExporter({
+    url: 'http://localhost:4318/v1/metrics',
+    headers: {},
+    concurrencyLimit: 1,
+});
+const meterProvider: MeterProvider = new MeterProvider({
+    resource: new Resource({ [SemanticResourceAttributes.SERVICE_NAME]: 'plain-browser' })
+});
+
+meterProvider.addMetricReader(new PeriodicExportingMetricReader({
+    exporter: metricExporter,
+    exportIntervalMillis: 5000,
+}));
+
+const meter: Meter = meterProvider.getMeter('browser-meter');
+const counter: Counter<Attributes> = meter.createCounter('test-counter');
+
+counter.add(10, { 'foo': 'bar' });
+
+// TRACES
 const hostname: string = 'front-end';
-const provider: WebTracerProvider = new WebTracerProvider({
+const tracerProvider: WebTracerProvider = new WebTracerProvider({
     resource: new Resource({
-        'x.host.name': hostname
+        'host.name': hostname
     })
 });
 
@@ -19,20 +44,19 @@ const traceExporter: OTLPTraceExporter = new OTLPTraceExporter({
     url: 'http://localhost:4318/v1/traces'
 });
 
-provider.addSpanProcessor(new BatchSpanProcessor(traceExporter));
-provider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
-
-provider.register({
+tracerProvider.addSpanProcessor(new BatchSpanProcessor(traceExporter));
+tracerProvider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
+tracerProvider.register({
     // Changing default contextManager to use ZoneContextManager - supports asynchronous operations - optional
-    contextManager: new ZoneContextManager(),
+    contextManager: new ZoneContextManager()
 });
 
-// Registering instrumentations
 registerInstrumentations({
     instrumentations: [
         new DocumentLoadInstrumentation(),
         new UserInteractionInstrumentation(),
         new XMLHttpRequestInstrumentation()
     ],
-    tracerProvider: provider
+    tracerProvider,
+    meterProvider
 });

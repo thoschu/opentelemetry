@@ -1,4 +1,4 @@
-# Running and using the OpenTelemetry collector
+# Running and using the OpenTelemetry collector with logging
 
 https://github.com/open-telemetry/opentelemetry-collector-contrib
 
@@ -13,7 +13,7 @@ https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/rece
 https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter
 
 ### Configure the collector
-Add the following content to `collector/config.yml`
+Add the following content to `collector/config.yml` tio allow CORS.
 
 ```yml
 receivers:
@@ -21,6 +21,9 @@ receivers:
     protocols:
       http:
         endpoint: 0.0.0.0:4318
+        cors:
+          allowed_origins:
+            - http://localhost:8080
       grpc:
         endpoint: 0.0.0.0:4317
 processors:
