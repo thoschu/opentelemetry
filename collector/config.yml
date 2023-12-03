@@ -1,5 +1,4 @@
 extensions:
-  health_check:
   oidc:
   basicauth/server:
     htpasswd:
@@ -21,13 +20,13 @@ receivers:
   otlp/auth:
     protocols:
       http:
-        endpoint: 0.0.0.0:4318
-        auth:
-          authenticator: bearertokenauth
-      grpc:
         endpoint: 0.0.0.0:4316
         auth:
           authenticator: basicauth/server
+      grpc:
+        endpoint: 0.0.0.0:4315
+        auth:
+          authenticator: bearertokenauth
 processors:
   batch:
 exporters:
@@ -50,7 +49,7 @@ exporters:
     tls:
       insecure: true
 service:
-  extensions: [bearertokenauth, health_check]
+  extensions: [basicauth/server]
   telemetry:
     logs:
         level: "debug"

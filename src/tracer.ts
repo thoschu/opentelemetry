@@ -14,10 +14,9 @@ const start: (serviceName: string) => Meter = (serviceName: string): Meter => {
     const token: string = 'randomtoken';
     const traceExporter: OTLPTraceExporter = new OTLPTraceExporter({
         url: 'http://collector:4318/v1/traces',
-        // headers: {
-        //     'Content-Type': 'application/json',
-        //     'Authorization': `Basic ${btoa(username + ':' + password)}`
-        // },
+        headers: {
+            //'Authorization': `Basic ${btoa(username + ':' + password)}`
+        }
     });
 
     const meterProvider: MeterProvider = new MeterProvider({
