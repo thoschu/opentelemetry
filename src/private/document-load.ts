@@ -11,6 +11,33 @@ import { MeterProvider, PeriodicExportingMetricReader } from '@opentelemetry/sdk
 import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-http';
 import { Attributes, Counter, Histogram, Meter } from '@opentelemetry/api';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
+import { LoggerProvider, SimpleLogRecordProcessor } from '@opentelemetry/sdk-logs';
+import { OTLPExporterNodeConfigBase } from '@opentelemetry/otlp-exporter-base';
+import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-proto';
+import { Logger, logs, SeverityNumber } from '@opentelemetry/api-logs';
+
+const serviceName: string = 'front-end';
+
+// LOGS
+const loggerProvider: LoggerProvider = new LoggerProvider({
+    resource: new Resource({ [SemanticResourceAttributes.SERVICE_NAME]: serviceName })
+});
+
+const logExporter: OTLPLogExporter = new OTLPLogExporter({
+    url: 'http://localhost:4318/v1/logs', concurrencyLimit: 1
+});
+
+loggerProvider.addLogRecordProcessor(new SimpleLogRecordProcessor(logExporter));
+
+logs.setGlobalLoggerProvider(loggerProvider);
+const logger: Logger = logs.getLogger(serviceName);
+
+logger.emit({
+    severityNumber: SeverityNumber.TRACE,
+    severityText: 'TRACE',
+    body: 'this is a log body from frontend/browser',
+    attributes: { 'log.type': 'LogRecord' }
+});
 
 // METRICS
 const metricExporter: OTLPMetricExporter = new OTLPMetricExporter({
@@ -19,7 +46,7 @@ const metricExporter: OTLPMetricExporter = new OTLPMetricExporter({
     concurrencyLimit: 1,
 });
 const meterProvider: MeterProvider = new MeterProvider({
-    resource: new Resource({ [SemanticResourceAttributes.SERVICE_NAME]: 'plain-browser' })
+    resource: new Resource({ [SemanticResourceAttributes.SERVICE_NAME]: serviceName })
 });
 
 meterProvider.addMetricReader(new PeriodicExportingMetricReader({
@@ -39,10 +66,9 @@ calls.record(Date.now() - 2000,{
 });
 
 // TRACES
-const hostname: string = 'front-end';
 const tracerProvider: WebTracerProvider = new WebTracerProvider({
     resource: new Resource({
-        'host.name': hostname
+        'service.name': serviceName
     })
 });
 

@@ -37,30 +37,37 @@ npm start
 
 3. **Services:**
 
-> [Frontend](http://localhost:8080/)
+> 📍 [Frontend](http://localhost:8080/)
 
-> [Jaeger](http://localhost:16686/)
-> > https://www.jaegertracing.io/
+> 📍 [Jaeger](http://localhost:16686/)
+> > **https://www.jaegertracing.io/**
 
-> [Zipkin](http://localhost:9411/)
-> > https://zipkin.io/
+> 📍 [Zipkin](http://localhost:9411/)
+> > **https://zipkin.io/**
 
-> [Redis](http://localhost:8088/)
-> > https://redis.com/
-> 
-> > https://github.com/joeferner/redis-commander
+> 📍 [Redis](http://localhost:8088/)
+> > **https://redis.com/**
+> >
+> > **https://github.com/joeferner/redis-commander**
 
-> [Prometheus](http://localhost:9090/)
+> 📍 [Prometheus](http://localhost:9090/)
 > 
 > > ``` histogram_quantile(0.95, sum(rate(http_calls_bucket[1m])) by (le, route)) ```
->
+> >
 > > ``` otel_http_calls_bucket ```
->
+> >
 > > ``` otel_http_calls_sum ```
 >
-> > https://prometheus.io/
+> > **https://prometheus.io/**
 
-> [ToDo Service](http://localhost:8081/todos)
+> 📍 [Grafana](http://localhost:3000/)
+> > **https://grafana.com/**
+> >
+> > **https://grafana.com/docs/loki/latest/**
+> >
+> > **https://grafana.com/docs/loki/latest/send-data/promtail/**
+
+> 📍 [ToDo Service](http://localhost:8081/todos)
 
 ---
 

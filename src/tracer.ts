@@ -15,7 +15,9 @@ import { SeverityNumber } from '@opentelemetry/api-logs';
 
 const start: (serviceName: string) => { meter: Meter; logger: Logger } = (serviceName: string): { meter: Meter; logger: Logger } => {
     // LOGS
-    const loggerProvider: LoggerProvider = new LoggerProvider();
+    const loggerProvider: LoggerProvider = new LoggerProvider({
+        resource: new Resource({ [SemanticResourceAttributes.SERVICE_NAME]: serviceName })
+    });
     const exporterConfig: OTLPExporterNodeConfigBase = {
         url: 'http://collector:4318/v1/logs', concurrencyLimit: 1
     };
