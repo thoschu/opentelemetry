@@ -9,8 +9,8 @@ import { Resource } from '@opentelemetry/resources';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
 import { MeterProvider, PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
 import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-http';
-import { Attributes, Counter, Meter } from '@opentelemetry/api';
-import {SemanticResourceAttributes} from "@opentelemetry/semantic-conventions";
+import { Attributes, Counter, Histogram, Meter } from '@opentelemetry/api';
+import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 
 // METRICS
 const metricExporter: OTLPMetricExporter = new OTLPMetricExporter({
@@ -29,8 +29,14 @@ meterProvider.addMetricReader(new PeriodicExportingMetricReader({
 
 const meter: Meter = meterProvider.getMeter('browser-meter');
 const counter: Counter<Attributes> = meter.createCounter('test-counter');
+const calls: Histogram<Attributes> = meter.createHistogram('http-calls-histogram');
 
 counter.add(10, { 'foo': 'bar' });
+calls.record(Date.now() - 2000,{
+    route: '/test',
+    status: '200',
+    method: 'GET'
+});
 
 // TRACES
 const hostname: string = 'front-end';
