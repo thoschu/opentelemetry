@@ -28,6 +28,13 @@ https://www.w3schools.com/js/js_api_intro.asp
 
 https://web.dev/articles/vitals?hl=de
 
+
+```javascript
+
+
+
+```
+
 ## JS Browser BOM and JS Web APIs
 
 Various JavaScript APIs are available to read metrics in the browser.
