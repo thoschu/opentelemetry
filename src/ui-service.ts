@@ -2,19 +2,29 @@ import start from './tracer';
 const etc: { meter: Meter; logger: Logger } = start('ui-service');
 
 import express, { Express, NextFunction, Response, Request } from 'express';
-import {Attributes, Histogram, Meter, context, trace, Span, Context} from '@opentelemetry/api';
+import {Attributes, Histogram, Meter, context, trace, Span, Context, SpanContext} from '@opentelemetry/api';
 import { Logger, SeverityNumber } from '@opentelemetry/api-logs';
 
 const calls: Histogram<Attributes> = etc.meter.createHistogram('http-calls');
 const app: Express = express();
 const port: string | number = process.env.PORT || 8080;
 
+app.set('view engine', 'hbs');
+
 app.use((req: Request, res: Response, next: NextFunction): void => {
     const startTime: number = Date.now();
     const activeContext: Context = context.active();
     const currentSpan: Span | undefined = trace.getSpan(activeContext);
+    const spanContext: SpanContext = currentSpan.spanContext();
+    const version: string = '00';
+    const traceId: string = spanContext.traceId;
+    const spanId: string  = spanContext.spanId;
+    const sampleDecision: string = `${(spanContext.traceFlags === 1) ? '01' : '00'}`;
+    const traceparent: string = `${version}-${traceId}-${spanId}-${sampleDecision}`
 
-    res.set('traceparent', currentSpan.spanContext().traceId);
+    res.set('traceparent', traceparent);
+
+    console.log(traceparent);
 
     req.on('end',(): void=> {
         const endTime: number = Date.now();

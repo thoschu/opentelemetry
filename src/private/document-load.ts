@@ -12,7 +12,6 @@ import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-http';
 import { Attributes, Counter, Histogram, Meter } from '@opentelemetry/api';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 import { LoggerProvider, SimpleLogRecordProcessor } from '@opentelemetry/sdk-logs';
-import { OTLPExporterNodeConfigBase } from '@opentelemetry/otlp-exporter-base';
 import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-proto';
 import { Logger, logs, SeverityNumber } from '@opentelemetry/api-logs';
 

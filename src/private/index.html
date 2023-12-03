@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <meta charset="utf-8">
-        <meta name="traceparent" content="00-ab42124a3c573678d4d8b21ba52df3bf-d21f7bc17caa5aba-01">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>OpenTelemetry</title>
         <base href="/">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="traceparent" content="00-ab42124a3c573678d4d8b21ba52df3bf-d21f7bc17caa5aba-01">
         <!--
           https://www.w3.org/TR/trace-context/
           Set the `traceparent` in the server's HTML template code. It should be
@@ -181,6 +181,9 @@
             const inputFieldPassword = document.getElementById("password");
             const select = document.getElementById("select");
             const clicks = fromEvent(document, "click");
+            const metas = document.getElementsByTagName('meta');
+
+            console.log(metas[2]);
 
              const checkInputs = () => {
                 if (inputFieldUsername.value.length > 0 && inputFieldPassword.value.length > 0) {
