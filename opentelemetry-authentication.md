@@ -1,3 +1,19 @@
+# Running and using the OpenTelemetry collector with authentication
+
+https://github.com/open-telemetry/opentelemetry-collector-contrib
+
+https://opentelemetry.io/docs/instrumentation/js/exporters/
+
+---
+
+## Receivers, Exporters and Extensions
+
+**https://opentelemetry.io/docs/collector/configuration/#authentication**
+
+### Configure the collector
+Add the following content to `collector/config.yml`
+
+```yml
 extensions:
   health_check:
   oidc:
@@ -20,10 +36,6 @@ receivers:
         endpoint: 0.0.0.0:4317
   otlp/auth:
     protocols:
-      http:
-        endpoint: 0.0.0.0:4318
-        auth:
-          authenticator: bearertokenauth
       grpc:
         endpoint: 0.0.0.0:4316
         auth:
@@ -53,13 +65,14 @@ service:
   extensions: [bearertokenauth, health_check]
   telemetry:
     logs:
-        level: "debug"
+      level: "debug"
   pipelines:
     traces:
-      receivers: [otlp]
+      receivers: [otlp/auth]
       processors: [batch]
       exporters: [debug, otlp/jaeger, zipkin]
     metrics:
       receivers: [otlp]
       processors: [batch]
       exporters: [debug, prometheus]
+```

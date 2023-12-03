@@ -1,7 +1,6 @@
 import { NodeSDK } from '@opentelemetry/sdk-node';
 import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
-// import { ExporterConfig, PrometheusExporter } from '@opentelemetry/exporter-prometheus';
 import { MeterProvider, PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
 import { Resource } from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
@@ -10,17 +9,17 @@ import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-proto';
 
 const start: (serviceName: string) => Meter = (serviceName: string): Meter => {
     // TRAICING
+    const username: string = 'tom';
+    const password: string = 'password';
+    const token: string = 'randomtoken';
     const traceExporter: OTLPTraceExporter = new OTLPTraceExporter({
-        // url: 'http://jaeger:4318/v1/traces',
-        url: 'http://collector:4318/v1/traces'
+        url: 'http://collector:4318/v1/traces',
+        // headers: {
+        //     'Content-Type': 'application/json',
+        //     'Authorization': `Basic ${btoa(username + ':' + password)}`
+        // },
     });
 
-    // METRICS
-    // const { endpoint, port }: { endpoint: string, port: number } = PrometheusExporter.DEFAULT_OPTIONS;
-    // const options: ExporterConfig = { port, endpoint };
-    // const exporter: PrometheusExporter = new PrometheusExporter(options, (): void => {
-    //     console.log(`Prometheus scrape endpoint: http://localhost:${port}${endpoint}`);
-    // });
     const meterProvider: MeterProvider = new MeterProvider({
         resource: new Resource({ [SemanticResourceAttributes.SERVICE_NAME]: serviceName })
     });
