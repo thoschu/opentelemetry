@@ -17,6 +17,10 @@ All of OpenTelemetry core concepts have been recorded in the attached feature br
 - instrumentation: An instrumentation package that initializes automatic instrumentation.
 - auto-instrumentations-web: A meta package that includes various web automatic instrumentation including request and document load instrumentation.
 
+```typescript
+
+```
+
 ---
 
 ## Frontend/Browser Metrics
@@ -29,9 +33,33 @@ https://www.w3schools.com/js/js_api_intro.asp
 https://web.dev/articles/vitals?hl=de
 
 
-```javascript
+```typescript
+const metricExporter: OTLPMetricExporter = new OTLPMetricExporter({
+    url: 'http://localhost:4318/v1/metrics',
+    headers: {},
+    concurrencyLimit: 1,
+});
+const meterProvider: MeterProvider = new MeterProvider({
+    resource: new Resource({ [SemanticResourceAttributes.SERVICE_NAME]: 'plain-browser' })
+});
 
+meterProvider.addMetricReader(new PeriodicExportingMetricReader({
+    exporter: metricExporter,
+    exportIntervalMillis: 5000,
+}));
 
+const meter: Meter = meterProvider.getMeter('browser-meter');
+const counter: Counter<Attributes> = meter.createCounter('test-counter');
+const calls: Histogram<Attributes> = meter.createHistogram('http-calls-histogram');
+
+counter.add(10, { 'key': 'value' });
+
+calls.record(Date.now() - 2000,{
+    route: '/test',
+    status: '200',
+    method: 'GET',
+    language: navigator.language
+});
 
 ```
 
