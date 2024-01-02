@@ -1,4 +1,4 @@
-// import { ConsoleSpanExporter, SimpleSpanProcessor } from '@opentelemetry/sdk-trace-base';
+import { ConsoleSpanExporter, SimpleSpanProcessor } from '@opentelemetry/sdk-trace-base';
 import { BatchSpanProcessor, WebTracerProvider } from '@opentelemetry/sdk-trace-web';
 import { DocumentLoadInstrumentation } from '@opentelemetry/instrumentation-document-load';
 import { ZoneContextManager } from '@opentelemetry/context-zone';
@@ -15,25 +15,25 @@ import { LoggerProvider, SimpleLogRecordProcessor } from '@opentelemetry/sdk-log
 import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-proto';
 import { Logger, logs, SeverityNumber } from '@opentelemetry/api-logs';
 
-const serviceName: string = 'front-end';
+const serviceName = 'front-end';
 
 // --------------------------------------------------------------------------------
 // LOGS ---------------------------------------------------------------------------
 // --------------------------------------------------------------------------------
-const loggerProvider: LoggerProvider = new LoggerProvider({
+const loggerProvider = new LoggerProvider({
     resource: new Resource({ [SemanticResourceAttributes.SERVICE_NAME]: serviceName })
 });
 
-const logExporter: OTLPLogExporter = new OTLPLogExporter({
+const logExporter = new OTLPLogExporter({
     url: 'http://localhost:4318/v1/logs', concurrencyLimit: 1
 });
 
-const logProcessor: SimpleLogRecordProcessor = new SimpleLogRecordProcessor(logExporter);
+const logProcessor = new SimpleLogRecordProcessor(logExporter);
 
 loggerProvider.addLogRecordProcessor(logProcessor);
 
 logs.setGlobalLoggerProvider(loggerProvider);
-const logger: Logger = logs.getLogger(serviceName);
+const logger = logs.getLogger(serviceName);
 
 logger.emit({
     severityNumber: SeverityNumber.TRACE,
@@ -45,12 +45,12 @@ logger.emit({
 // -----------------------------------------------------------------------------------
 // METRICS ---------------------------------------------------------------------------
 // -----------------------------------------------------------------------------------
-const metricExporter: OTLPMetricExporter = new OTLPMetricExporter({
+const metricExporter = new OTLPMetricExporter({
     url: 'http://localhost:4318/v1/metrics',
     headers: {},
     concurrencyLimit: 1,
 });
-const meterProvider: MeterProvider = new MeterProvider({
+const meterProvider = new MeterProvider({
     resource: new Resource({ [SemanticResourceAttributes.SERVICE_NAME]: serviceName })
 });
 
@@ -59,9 +59,9 @@ meterProvider.addMetricReader(new PeriodicExportingMetricReader({
     exportIntervalMillis: 5000,
 }));
 
-const meter: Meter = meterProvider.getMeter('browser-meter');
-const counter: Counter<Attributes> = meter.createCounter('test-counter');
-const calls: Histogram<Attributes> = meter.createHistogram('http-calls-histogram');
+const meter = meterProvider.getMeter('browser-meter');
+const counter= meter.createCounter('test-counter');
+const calls = meter.createHistogram('http-calls-histogram');
 
 counter.add(10, { 'foo': 'bar' });
 
@@ -74,18 +74,18 @@ calls.record(Date.now() - 2000,{
 // ----------------------------------------------------------------------------------
 // TRACES ---------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------
-const tracerProvider: WebTracerProvider = new WebTracerProvider({
+const tracerProvider = new WebTracerProvider({
     resource: new Resource({
         'service.name': serviceName
     })
 });
 
-const traceExporter: OTLPTraceExporter = new OTLPTraceExporter({
+const traceExporter = new OTLPTraceExporter({
     url: 'http://localhost:4318/v1/traces'
 });
 
 tracerProvider.addSpanProcessor(new BatchSpanProcessor(traceExporter));
-// tracerProvider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
+tracerProvider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
 
 tracerProvider.register({
     // Changing default contextManager to use ZoneContextManager - supports asynchronous operations - optional

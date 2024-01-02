@@ -76,7 +76,11 @@ app.get('/todos', async (req: Request, res: Response): Promise<void> => {
     }
 
     res.json({todos: null, user: user.data, env: process.env.NODE_ENV});
-})
+});
+
+app.get('/ping', (_req: Request, res: Response): void => {
+    res.status(200).send('Ok')
+});
 
 app.listen(port, (): void => {
     const logText: string = `todo-service is up and running and listening on port ${port}`;

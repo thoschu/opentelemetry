@@ -43,6 +43,10 @@ app.get('/auth', async (req: Request, res: Response): Promise<void> => {
     res.json({ loggedIn, redisResultParsed, headers: req.headers });
 });
 
+app.get('/ping', (_req: Request, res: Response): void => {
+    res.status(200).send('Ok')
+});
+
 app.listen(port,(): void => {
     const logText: string = `auth-service is up and running and listening on port ${port}`;
 

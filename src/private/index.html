@@ -170,7 +170,7 @@
             </code>
         </footer>
         <script type="module">
-            import './document-load.ts';
+            import './document-load.js';
             const JSONFormatter = window.JSONFormatter;
             const { fromEvent } = window.rxjs;
             const dialog = document.getElementById("login-dialog");
@@ -182,8 +182,10 @@
             const select = document.getElementById("select");
             const clicks = fromEvent(document, "click");
             const metas = document.getElementsByTagName('meta');
+            const traceParent = metas[2];
 
-            console.log(metas[2]);
+            console.log('##########');
+            console.log(traceParent);
 
              const checkInputs = () => {
                 if (inputFieldUsername.value.length > 0 && inputFieldPassword.value.length > 0) {
