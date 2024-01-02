@@ -17,7 +17,9 @@ import { Logger, logs, SeverityNumber } from '@opentelemetry/api-logs';
 
 const serviceName: string = 'front-end';
 
-// LOGS
+// --------------------------------------------------------------------------------
+// LOGS ---------------------------------------------------------------------------
+// --------------------------------------------------------------------------------
 const loggerProvider: LoggerProvider = new LoggerProvider({
     resource: new Resource({ [SemanticResourceAttributes.SERVICE_NAME]: serviceName })
 });
@@ -40,7 +42,9 @@ logger.emit({
     attributes: { 'log.type': 'LogRecord' }
 });
 
-// METRICS
+// -----------------------------------------------------------------------------------
+// METRICS ---------------------------------------------------------------------------
+// -----------------------------------------------------------------------------------
 const metricExporter: OTLPMetricExporter = new OTLPMetricExporter({
     url: 'http://localhost:4318/v1/metrics',
     headers: {},
@@ -60,13 +64,16 @@ const counter: Counter<Attributes> = meter.createCounter('test-counter');
 const calls: Histogram<Attributes> = meter.createHistogram('http-calls-histogram');
 
 counter.add(10, { 'foo': 'bar' });
+
 calls.record(Date.now() - 2000,{
     route: '/test',
     status: '200',
     method: 'GET'
 });
 
-// TRACES
+// ----------------------------------------------------------------------------------
+// TRACES ---------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------
 const tracerProvider: WebTracerProvider = new WebTracerProvider({
     resource: new Resource({
         'service.name': serviceName
@@ -79,6 +86,7 @@ const traceExporter: OTLPTraceExporter = new OTLPTraceExporter({
 
 tracerProvider.addSpanProcessor(new BatchSpanProcessor(traceExporter));
 tracerProvider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
+
 tracerProvider.register({
     // Changing default contextManager to use ZoneContextManager - supports asynchronous operations - optional
     contextManager: new ZoneContextManager()
@@ -91,5 +99,5 @@ registerInstrumentations({
         new XMLHttpRequestInstrumentation()
     ],
     tracerProvider,
-    meterProvider
+    meterProvider,
 });
