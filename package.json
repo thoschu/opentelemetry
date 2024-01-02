@@ -14,6 +14,7 @@
     "start": "npm run build && npm run up",
     "docker:ps": "docker ps -a",
     "up": "docker compose up --force-recreate",
+    "up:d": "docker compose up --force-recreate -d",
     "down": "docker compose down",
     "test": "echo \"Error: no test specified\" && exit 1",
     "todo": "ts-node-dev --inspect --watch -- src/todo-service.ts",
