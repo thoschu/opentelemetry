@@ -1,6 +1,6 @@
 {
   "name": "opentelemetry",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "version.name": "collector-browser-traceparent",
   "source": "./src/private/index.html",
   "browserslist": [
