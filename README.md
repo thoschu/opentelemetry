@@ -4,6 +4,7 @@
 
 ### https://opentelemetry.io/ecosystem/registry/
 ### https://opentelemetry.io/docs/specs/otel/overview/
+### https://github.com/open-telemetry/opentelemetry-js/tree/main/examples/opentelemetry-web/examples
 
 ---
 
@@ -20,7 +21,7 @@ git checkout main
 ```
 
 ```bash
-git checkout collector-logging
+git checkout collector-browser-traceparent
 ```
 
 3. **Running it with docker:** 

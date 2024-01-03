@@ -8,7 +8,7 @@ import { Resource } from '@opentelemetry/resources';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
 import { MeterProvider, PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
 import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-http';
-import {Attributes, Counter, Histogram, Meter, Span} from '@opentelemetry/api';
+import { Attributes, Counter, Histogram, Meter } from '@opentelemetry/api';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 import { LoggerProvider, SimpleLogRecordProcessor } from '@opentelemetry/sdk-logs';
 import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-proto';
@@ -19,6 +19,7 @@ import { DocumentLoadInstrumentation } from '@opentelemetry/instrumentation-docu
 import { UserInteractionInstrumentation } from '@opentelemetry/instrumentation-user-interaction';
 import { XMLHttpRequestInstrumentation } from '@opentelemetry/instrumentation-xml-http-request';
 import { FetchInstrumentation } from '@opentelemetry/instrumentation-fetch';
+import {LongTaskInstrumentation} from "@opentelemetry/instrumentation-long-task";
 
 const serviceName: string = 'front-end';
 
@@ -89,26 +90,22 @@ const traceExporter: OTLPTraceExporter = new OTLPTraceExporter({
     url: 'http://localhost:4318/v1/traces'
 });
 
-tracerProvider.addSpanProcessor(new BatchSpanProcessor(traceExporter));
-tracerProvider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
+tracerProvider.addSpanProcessor(new SimpleSpanProcessor(traceExporter));
+tracerProvider.addSpanProcessor(new BatchSpanProcessor(new ConsoleSpanExporter()));
 
 tracerProvider.register({
     // Changing default contextManager to use ZoneContextManager - supports asynchronous operations - optional
-    contextManager: new ZoneContextManager()
+    contextManager: new ZoneContextManager(),
 });
 
+// https://github.com/open-telemetry/opentelemetry-js/tree/main/examples/opentelemetry-web/examples
 registerInstrumentations({
     instrumentations: [
         new DocumentLoadInstrumentation(),
-        new UserInteractionInstrumentation({
-            //eventNames: ['submit', 'click', 'keypress'],
-            // shouldPreventSpanCreation: (event: keyof HTMLElementEventMap, element: HTMLElement, span: Span): void => {
-            //     span.setAttribute('target.id', element.id);
-            //     // etc..
-            // }
-        }),
+        new UserInteractionInstrumentation(),
         new XMLHttpRequestInstrumentation(),
-        new FetchInstrumentation()
+        new FetchInstrumentation(),
+        new LongTaskInstrumentation()
     ],
     tracerProvider,
     meterProvider,

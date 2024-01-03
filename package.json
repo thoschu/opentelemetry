@@ -50,6 +50,7 @@
     "@opentelemetry/instrumentation": "^0.46.0",
     "@opentelemetry/instrumentation-document-load": "^0.33.2",
     "@opentelemetry/instrumentation-fetch": "^0.46.0",
+    "@opentelemetry/instrumentation-long-task": "^0.34.0",
     "@opentelemetry/instrumentation-user-interaction": "^0.33.2",
     "@opentelemetry/instrumentation-xml-http-request": "^0.44.0",
     "@opentelemetry/resource-detector-docker": "^0.1.2",

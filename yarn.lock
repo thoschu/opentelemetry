@@ -852,6 +852,15 @@
     "@types/koa" "2.13.9"
     "@types/koa__router" "12.0.1"
 
+"@opentelemetry/instrumentation-long-task@^0.34.0":
+  version "0.34.0"
+  resolved "https://registry.yarnpkg.com/@opentelemetry/instrumentation-long-task/-/instrumentation-long-task-0.34.0.tgz#72d0b07bc911775fb2c9867f8c110120de99b542"
+  integrity sha512-/RyUoL6SkNYUOXUM0t1hzgL+//3l8x0xTX0BgrQdWEPgAzyXKt91QB7aoPPOAO8S2PtW0rV5DEqMPqZ0co+qWQ==
+  dependencies:
+    "@opentelemetry/core" "^1.8.0"
+    "@opentelemetry/instrumentation" "^0.45.1"
+    "@opentelemetry/sdk-trace-web" "^1.8.0"
+
 "@opentelemetry/instrumentation-lru-memoizer@^0.33.2":
   version "0.33.2"
   resolved "https://registry.yarnpkg.com/@opentelemetry/instrumentation-lru-memoizer/-/instrumentation-lru-memoizer-0.33.2.tgz#355bd161aa37a0aafb98f9abc1d998017c7c98e7"
