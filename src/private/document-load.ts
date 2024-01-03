@@ -1,10 +1,13 @@
-// import { ConsoleSpanExporter, SimpleSpanProcessor } from '@opentelemetry/sdk-trace-base';
-import { BatchSpanProcessor, WebTracerProvider } from '@opentelemetry/sdk-trace-web';
+import {
+    BatchSpanProcessor,
+    ConsoleSpanExporter,
+    SimpleSpanProcessor,
+    WebTracerProvider
+} from '@opentelemetry/sdk-trace-web';
 import { DocumentLoadInstrumentation } from '@opentelemetry/instrumentation-document-load';
-import { ZoneContextManager } from '@opentelemetry/context-zone';
-import { registerInstrumentations } from '@opentelemetry/instrumentation';
 import { UserInteractionInstrumentation } from '@opentelemetry/instrumentation-user-interaction';
 import { XMLHttpRequestInstrumentation } from '@opentelemetry/instrumentation-xml-http-request';
+import { FetchInstrumentation } from '@opentelemetry/instrumentation-fetch';
 import { Resource } from '@opentelemetry/resources';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
 import { MeterProvider, PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
@@ -14,6 +17,8 @@ import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions'
 import { LoggerProvider, SimpleLogRecordProcessor } from '@opentelemetry/sdk-logs';
 import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-proto';
 import { Logger, logs, SeverityNumber } from '@opentelemetry/api-logs';
+import { ZoneContextManager } from '@opentelemetry/context-zone';
+import { registerInstrumentations } from '@opentelemetry/instrumentation';
 
 const serviceName: string = 'front-end';
 
@@ -85,7 +90,7 @@ const traceExporter: OTLPTraceExporter = new OTLPTraceExporter({
 });
 
 tracerProvider.addSpanProcessor(new BatchSpanProcessor(traceExporter));
-// tracerProvider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
+tracerProvider.addSpanProcessor(new SimpleSpanProcessor(new ConsoleSpanExporter()));
 
 tracerProvider.register({
     // Changing default contextManager to use ZoneContextManager - supports asynchronous operations - optional
@@ -96,7 +101,8 @@ registerInstrumentations({
     instrumentations: [
         new DocumentLoadInstrumentation(),
         new UserInteractionInstrumentation(),
-        new XMLHttpRequestInstrumentation()
+        new XMLHttpRequestInstrumentation(),
+        new FetchInstrumentation()
     ],
     tracerProvider,
     meterProvider,
