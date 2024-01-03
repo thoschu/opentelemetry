@@ -4,21 +4,21 @@ import {
     SimpleSpanProcessor,
     WebTracerProvider
 } from '@opentelemetry/sdk-trace-web';
-import { DocumentLoadInstrumentation } from '@opentelemetry/instrumentation-document-load';
-import { UserInteractionInstrumentation } from '@opentelemetry/instrumentation-user-interaction';
-import { XMLHttpRequestInstrumentation } from '@opentelemetry/instrumentation-xml-http-request';
-import { FetchInstrumentation } from '@opentelemetry/instrumentation-fetch';
 import { Resource } from '@opentelemetry/resources';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-http';
 import { MeterProvider, PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
 import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-http';
-import { Attributes, Counter, Histogram, Meter } from '@opentelemetry/api';
+import {Attributes, Counter, Histogram, Meter, Span} from '@opentelemetry/api';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 import { LoggerProvider, SimpleLogRecordProcessor } from '@opentelemetry/sdk-logs';
 import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-proto';
 import { Logger, logs, SeverityNumber } from '@opentelemetry/api-logs';
 import { ZoneContextManager } from '@opentelemetry/context-zone';
 import { registerInstrumentations } from '@opentelemetry/instrumentation';
+import { DocumentLoadInstrumentation } from '@opentelemetry/instrumentation-document-load';
+import { UserInteractionInstrumentation } from '@opentelemetry/instrumentation-user-interaction';
+import { XMLHttpRequestInstrumentation } from '@opentelemetry/instrumentation-xml-http-request';
+import { FetchInstrumentation } from '@opentelemetry/instrumentation-fetch';
 
 const serviceName: string = 'front-end';
 
@@ -100,7 +100,13 @@ tracerProvider.register({
 registerInstrumentations({
     instrumentations: [
         new DocumentLoadInstrumentation(),
-        new UserInteractionInstrumentation(),
+        new UserInteractionInstrumentation({
+            //eventNames: ['submit', 'click', 'keypress'],
+            // shouldPreventSpanCreation: (event: keyof HTMLElementEventMap, element: HTMLElement, span: Span): void => {
+            //     span.setAttribute('target.id', element.id);
+            //     // etc..
+            // }
+        }),
         new XMLHttpRequestInstrumentation(),
         new FetchInstrumentation()
     ],
